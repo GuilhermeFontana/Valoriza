@@ -13,7 +13,7 @@ class UserService {
         
         const userRepository = new UserRepository();
 
-        if ((await userRepository.buscarUm({ email })).rowCount > 0)
+        if ((await userRepository.buscarUm({ email })).length > 0)
             throw new Error("Este email já está cadastrado");
 
         return await userRepository.criar({
