@@ -1,6 +1,6 @@
-const { Client } = require('pg')
+const { Pool } = require('pg')
 
-export default new Client({
+export default new Pool({
     host: 'localhost',
     port: 5432,
     user: 'postgres',

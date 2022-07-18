@@ -16,7 +16,7 @@ CREATE TABLE valoriza.usuario (
 	email varchar NOT NULL,
 	"admin" bool NOT NULL DEFAULT false,
 	dthr_criacao information_schema."time_stamp" NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	dthr_atualizacak information_schema."time_stamp" NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	dthr_atualizacao information_schema."time_stamp" NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT pk_usuario PRIMARY KEY (id)
 );
 
