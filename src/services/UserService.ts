@@ -14,7 +14,7 @@ class UserService {
         const userRepository = new UserRepository();
 
         if ((await userRepository.buscarUm({ email })).rowCount > 0)
-            throw new Error("Este email já esta cadastrado");
+            throw new Error("Este email já está cadastrado");
 
         return await userRepository.criar({
             nome,
