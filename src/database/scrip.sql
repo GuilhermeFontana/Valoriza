@@ -5,6 +5,7 @@ CREATE SCHEMA valoriza AUTHORIZATION postgres;
 CREATE TABLE valoriza.etiqueta (
 	id numeric NOT NULL,
 	nome varchar NOT NULL,
+	senha varchar NOT NULL,
 	dthr_criacao information_schema."time_stamp" NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	dthr_atualizacao information_schema."time_stamp" NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT pk_etiqueta PRIMARY KEY (id)

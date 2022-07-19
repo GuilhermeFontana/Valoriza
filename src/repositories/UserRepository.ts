@@ -1,14 +1,15 @@
 import { executarSQL, getProximoId } from "../database/pg";
-import toPascaCase from "../utils/toPascalCase";
 
 interface IUserInsert {
     nome: string;
+    senha: string;
     email: string;
     admin?: boolean;
 }
 
 interface IUserFindUpdate {
     nome?: string;
+    senha?: string;
     email?: string;
     admin?: boolean;
 }
@@ -17,8 +18,6 @@ class UserRepository {
     async criar(novoUsuario: IUserInsert) {
         const proximoId = await getProximoId("usuario");
 
-        novoUsuario.nome = toPascaCase(novoUsuario.nome);
-        novoUsuario.email = novoUsuario.email.toLocaleLowerCase();
         if (!novoUsuario.admin)
             delete novoUsuario.admin;
 
@@ -27,6 +26,8 @@ class UserRepository {
     VALUES(${proximoId}, '${Object.values(novoUsuario).join(`', '`)}');`;
 
         await executarSQL(sql);
+
+        delete novoUsuario.senha;
 
         return {
             id: proximoId,
@@ -74,8 +75,6 @@ class UserRepository {
     }
 
     async editar(id: number, novoUsuario: IUserFindUpdate) {
-        novoUsuario.nome = toPascaCase(novoUsuario.nome);
-
         const sql =
 `UPDATE valoriza.usuario
     SET ${Object.entries(novoUsuario).map(x => `${x[0]}='${x[1]}'`).join(", ")}, dthr_atualizacao=CURRENT_TIMESTAMP
@@ -85,7 +84,7 @@ class UserRepository {
 
         if (rowCount === 0)
             throw new Error("Usuário não encontrado");
-
+        
         return {
          id,
          ...novoUsuario   

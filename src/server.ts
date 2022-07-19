@@ -1,7 +1,11 @@
 import express from "express";
-import "express-async-errors"
-import exceptionHandling from "./middlewares/exceptionHandling";
+import "express-async-errors";
+import 'dotenv/config';
+
 import { router } from "./routes";
+
+import exceptionHandling from "./middlewares/exceptionHandling";
+
 
 const app = express();
 
@@ -11,6 +15,6 @@ app.use(exceptionHandling);
 
 
 app.listen(
-    3000, 
-    () => console.log("Server is running on port 3000")
+    process.env.PORT, 
+    () => console.log("Server is running on port " + process.env.PORT)
 )
