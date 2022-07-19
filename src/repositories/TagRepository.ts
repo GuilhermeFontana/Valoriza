@@ -48,7 +48,7 @@ class TagRepository {
     WHERE LOWER(nome) like LOWER('%${etiqueta.nome}%')
     LIMIT 1;`;
         
-        return (await executarSQL(sql)).rows;
+        return (await executarSQL(sql)).rows[0];
     }
 
     async editar(id: number, novaEtiqueta: ITag) {

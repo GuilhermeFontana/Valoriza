@@ -22,7 +22,7 @@ class UserService {
         return await userRepository.criar({
             nome: toPascaCase(nome),
             email: email.toLocaleLowerCase(),
-            senha: await hash(senha, 8), 
+            senha: await hash(senha, Number(process.env.SALT)), 
             admin
         })
     }

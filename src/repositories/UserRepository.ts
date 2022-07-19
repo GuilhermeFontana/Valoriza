@@ -59,9 +59,9 @@ class UserRepository {
 
     }
 
-    async buscarUm(usuario: IUserFindUpdate = {}) {
+    async buscarUm(usuario: IUserFindUpdate, buscaSenha?: boolean) {
         const sql = 
-`SELECT id, nome, email, admin
+`SELECT id, nome, email, admin ${buscaSenha ? ", senha" : ""}
     FROM valoriza.usuario
     WHERE 1=1 ${Object.entries(usuario).map(x => {
         if (x[1] === "admin")
@@ -71,7 +71,7 @@ class UserRepository {
     }).join("")}
     LIMIT 1;`;
 
-        return (await executarSQL(sql)).rows;
+        return (await executarSQL(sql)).rows[0];
     }
 
     async editar(id: number, novoUsuario: IUserFindUpdate) {
