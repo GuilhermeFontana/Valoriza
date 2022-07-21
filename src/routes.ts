@@ -20,6 +20,7 @@ router.post("/login", authenticateController.handle)
 
 /* Rotas de Usuário */
 router.post("/users", userController.criar);
+router.get("/users", userController.buscar);
 
 /* Rotas de  Etiqueta */
 router.post("/tags", ensureAdmin, tagController.criar)
