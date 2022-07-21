@@ -1,4 +1,5 @@
 import { executarSQL, getProximoId } from "../database/pg";
+import limparObjeto from "../utils/limparObjeto";
 
 interface IUserInsert {
     nome: string;
@@ -36,6 +37,8 @@ class UserRepository {
     }
 
     async buscar(usuario: IUserFindUpdate = {}) {
+        usuario = limparObjeto(usuario);
+
         const sql = 
 `SELECT id, nome, email, admin
     FROM valoriza.usuario
@@ -43,23 +46,24 @@ class UserRepository {
         if (x[1] === "admin")
             return ` AND ${x[0]}='${x[1]}'`
         
-            return ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%');`
-    }).join("")}`;
+            return ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%')`
+    }).join("")};`;
 
         return (await executarSQL(sql)).rows;
     }
 
     async buscarPorID(id: number) {
-        const { rows, rowCount } = await executarSQL(`SELECT 1 AS value FROM valoriza.usuario u WHERE u.id = ${id};`)
+        const { rows, rowCount } = await executarSQL(`SELECT id, nome, email, admin FROM valoriza.usuario u WHERE u.id = ${id};`)
 
         if (rowCount === 0)
-            throw new Error("Usuário não encontrado");
+            return null;
 
         return rows[0];
-
     }
 
     async buscarUm(usuario: IUserFindUpdate, buscaSenha?: boolean) {
+        usuario = limparObjeto(usuario);
+
         const sql = 
 `SELECT id, nome, email, admin ${buscaSenha ? ", senha" : ""}
     FROM valoriza.usuario
@@ -75,6 +79,8 @@ class UserRepository {
     }
 
     async editar(id: number, novoUsuario: IUserFindUpdate) {
+        novoUsuario = limparObjeto(novoUsuario);
+
         const sql =
 `UPDATE valoriza.usuario
     SET ${Object.entries(novoUsuario).map(x => `${x[0]}='${x[1]}'`).join(", ")}, dthr_atualizacao=CURRENT_TIMESTAMP
@@ -83,7 +89,7 @@ class UserRepository {
         const { rowCount } = await executarSQL(sql);
 
         if (rowCount === 0)
-            throw new Error("Usuário não encontrado");
+            return null;
         
         return {
          id,
@@ -97,9 +103,6 @@ class UserRepository {
     WHERE id=${id};`;
 
         const { rowCount } = await executarSQL(sql);
-
-        if (rowCount === 0)
-            throw new Error("Usuário não encontrado");
 
         return rowCount;
     }

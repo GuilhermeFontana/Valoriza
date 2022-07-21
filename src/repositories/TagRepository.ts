@@ -1,15 +1,17 @@
 import { executarSQL, getProximoId } from "../database/pg";
-import toPascaCase from "../utils/toPascalCase"
+import limparObjeto from "../utils/limparObjeto";
 
-interface ITag {
+interface ITagInsert {
     nome: string;
 }
 
-class TagRepository {
-    async criar(novaEtiqueta: {nome: string;}) {
-        const proximoId = await getProximoId("etiqueta");
+interface ITagFindUpdate {
+    nome?: string;
+}
 
-        novaEtiqueta.nome = toPascaCase(novaEtiqueta.nome);   
+class TagRepository {
+    async criar(novaEtiqueta: ITagInsert) {
+        const proximoId = await getProximoId("etiqueta");   
 
         const sql = 
 `INSERT INTO valoriza.etiqueta (id,nome)
@@ -23,46 +25,50 @@ class TagRepository {
         }
     }
 
-    async buscar(etiqueta: ITag) {
+    async buscar(etiqueta: ITagFindUpdate) {
+        etiqueta = limparObjeto(etiqueta);
+
         const sql = 
 `SELECT id, nome
     FROM valoriza.etiqueta
-    WHERE LOWER(nome) like LOWER('%${etiqueta.nome}%');`;
+    WHERE 1=1 AND ${Object.entries(etiqueta).map(x => ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%'`).join("")};`;
         
         return (await executarSQL(sql)).rows;
     }
 
-    async buscaPorID(id: number) {
-        const { rows, rowCount } = await executarSQL(`SELECT 1 AS value FROM valoriza.etiqueta e WHERE e.id = ${id}`)
+    async buscarPorID(id: number) {
+        const { rows, rowCount } = await executarSQL(`SELECT id, nome FROM valoriza.etiqueta e WHERE e.id = ${id}`)
 
         if (rowCount === 0)
-            throw new Error("Etiqueta não encontrada");
+            return null;
 
         return rows[0];
     }
 
-    async buscaUm(etiqueta: ITag) {
+    async buscarUm(etiqueta: ITagFindUpdate) {
+        etiqueta = limparObjeto(etiqueta);
+
         const sql = 
 `SELECT id, nome
     FROM valoriza.etiqueta
-    WHERE LOWER(nome) like LOWER('%${etiqueta.nome}%')
+    WHERE 1=1 AND ${Object.entries(etiqueta).map(x => ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%'`).join("")}
     LIMIT 1;`;
         
         return (await executarSQL(sql)).rows[0];
     }
 
-    async editar(id: number, novaEtiqueta: ITag) {
-        novaEtiqueta.nome = toPascaCase(novaEtiqueta.nome);
+    async editar(id: number, novaEtiqueta: ITagFindUpdate) {
+        novaEtiqueta = limparObjeto(novaEtiqueta);
 
         const sql = 
 `UPDATE valoriza.etiqueta
-    SET nome='2'
+    SET ${Object.entries(novaEtiqueta).map(x => `${x[0]}='${x[1]}'`).join(", ")}
     WHERE id=${id};`
 
         const { rowCount } = await executarSQL(sql);
 
         if (rowCount === 0)
-            throw new Error("Etiqueta não encontrada");
+            return null;
 
         return {
          id,
@@ -75,12 +81,7 @@ class TagRepository {
 `DELETE FROM valoriza.etiqueta
 WHERE id=${id};`
 
-        const { rowCount } = await executarSQL(sql);
-
-        if (rowCount === 0)
-            throw new Error("Etiqueta não encontrada");
-
-        return rowCount;
+        return (await executarSQL(sql)).rowCount;
     }
 }
 
