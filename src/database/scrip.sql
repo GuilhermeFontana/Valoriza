@@ -23,12 +23,13 @@ CREATE TABLE valoriza.usuario (
 
 CREATE TABLE valoriza.elogio (
 	id numeric NOT NULL,
-	usuid_remetente numeric NOT NULL,
-	usuid_destinatario numeric NOT NULL,
-	etiquetaid numeric NOT NULL,
+	remetente_id numeric NOT NULL,
+	destinatario_id numeric NOT NULL,
+	etiqueta_id numeric NOT NULL,
+	mensagem varchar,
 	dthr_criacao information_schema."time_stamp" NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT pk_elogio PRIMARY KEY (id),
 	CONSTRAINT fk_elogio_destinatario FOREIGN KEY (usuid_destinatario) REFERENCES valoriza.usuario(id),
-	CONSTRAINT fk_elogio_etiqueta FOREIGN KEY (etiquetaid) REFERENCES valoriza.etiqueta(id),
+	CONSTRAINT fk_elogio_etiqueta FOREIGN KEY (etiqueta_id) REFERENCES valoriza.etiqueta(id),
 	CONSTRAINT fk_elogio_remetente FOREIGN KEY (usuid_remetente) REFERENCES valoriza.usuario(id)
 );
