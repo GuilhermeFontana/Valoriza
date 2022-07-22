@@ -10,7 +10,6 @@ interface IUserInsert {
 }
 interface IUserFindUpdate {
     nome?: string;
-    senha?: string;
     email?: string;
     admin?: boolean;
 }
@@ -31,7 +30,7 @@ class UserService {
             email: email.toLocaleLowerCase(),
             senha: await hash(senha, Number(process.env.SALT)), 
             admin
-        })
+        });
     }
 
     async buscar({ nome, email, admin }: IUserFindUpdate) {
@@ -39,7 +38,7 @@ class UserService {
             nome,
             email,
             admin
-        })
+        });
     }
 
     async buscarPorID(id: number) {
@@ -47,6 +46,36 @@ class UserService {
             throw new Error("ID não informado");
 
         return await repository.buscarPorID(id);
+    }
+
+    async editar(id: number, { nome, email, admin }: IUserFindUpdate) {
+        if (!id)
+            throw new Error("ID não informado");
+
+        if (email && (await repository.buscarUm({ email })).id !== id) 
+            throw new Error("Este email já esta sendo usado por outro usuário");
+
+        const _nome = nome ? toPascaCase(nome) : nome;
+        const _email = email ? email.toLocaleLowerCase() : email;
+
+        const usuario = await repository.editar(id, {
+            nome: _nome,
+            email: _email,
+            admin
+        });
+
+        if (!usuario) 
+            throw new Error("Usuário não encontrado");
+
+        return usuario;
+    }
+
+    async remover(id: number) {
+        if (!id)
+            throw new Error("ID não informado");
+
+        if (await repository.remover(id) === 0)
+            throw new Error("Usuário não encontrado");
     }
 }
 

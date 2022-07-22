@@ -11,10 +11,34 @@ class UserController {
     }
 
     async buscar(req: Request, res: Response) {
-        const { nome, senha, email, admin } = req.body;
+        const { nome, email, admin } = req.body;
         
-        res.json(await service.buscar({ nome, senha, email, admin }));
+        res.json(await service.buscar({ nome, email, admin }));
     }
+
+    async buscarPorId(req: Request, res: Response) {
+        const { ID } = req.params;
+
+        res.json(await service.buscarPorID(Number(ID)));
+    }
+
+    async editar(req: Request, res: Response) {
+        const { ID } = req.params;
+        const { nome, email, admin } = req.body;
+
+        res.json(await service.editar(Number(ID), { 
+            nome,
+            email,
+            admin
+         }));
+    }
+
+    async remover(req: Request, res: Response) {
+        const { ID } = req.params;
+
+        res.json(await service.remover(Number(ID)));
+    }
+
 }
 
 export { UserController }

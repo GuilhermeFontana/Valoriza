@@ -33,7 +33,7 @@ class UserRepository {
         return {
             id: proximoId,
             ...novoUsuario
-        }
+        };
     }
 
     async buscar(usuario: IUserFindUpdate = {}) {
@@ -53,7 +53,7 @@ class UserRepository {
     }
 
     async buscarPorID(id: number) {
-        const { rows, rowCount } = await executarSQL(`SELECT id, nome, email, admin FROM valoriza.usuario u WHERE u.id = ${id};`)
+        const { rows, rowCount } = await executarSQL(`SELECT id, nome, email, admin FROM valoriza.usuario u WHERE u.id = ${id};`);
 
         if (rowCount === 0)
             return null;
@@ -80,6 +80,11 @@ class UserRepository {
 
     async editar(id: number, novoUsuario: IUserFindUpdate) {
         novoUsuario = limparObjeto(novoUsuario);
+
+        if (Object.keys(novoUsuario).length === 0) 
+            return {
+                id 
+            };
 
         const sql =
 `UPDATE valoriza.usuario
