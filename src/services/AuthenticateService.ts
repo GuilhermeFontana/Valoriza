@@ -20,7 +20,6 @@ class AuthenticateService {
 
         const token = sign({ 
                 email: usu.email, 
-                nome: usu.nome, 
                 admin: usu.admin 
             }, 
             process.env.SECRETE, 

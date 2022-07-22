@@ -52,7 +52,7 @@ class ComplimentRepository {
 `SELECT id, usuid_remetente AS remetente, usuid_destinatario AS destinatario, etiqueta_id, mensagem
     FROM valoriza.elogio
     WHERE 1=1 ${Object.entries(elogio).map(x => {
-        if (x[1] === "mensagem")
+        if (x[0] === "mensagem")
             return ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%')`
             
             return ` AND ${x[0]}='${x[1]}';`
@@ -82,7 +82,7 @@ class ComplimentRepository {
 `SELECT id, usuid_remetente AS remetente, usuid_destinatario AS destinatario, etiqueta_id, mensagem
     FROM valoriza.elogio
     WHERE 1=1 ${Object.entries(elogio).map(x => {
-        if (x[1] === "mensagem")
+        if (x[0] === "mensagem")
             return ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%');`
             
             return ` AND ${x[0]}='${x[1]}'`

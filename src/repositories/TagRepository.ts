@@ -60,6 +60,11 @@ class TagRepository {
     async editar(id: number, novaEtiqueta: ITagFindUpdate) {
         novaEtiqueta = limparObjeto(novaEtiqueta);
 
+        if (Object.keys(novaEtiqueta).length === 0) 
+            return {
+                id 
+            };
+
         const sql = 
 `UPDATE valoriza.etiqueta
     SET ${Object.entries(novaEtiqueta).map(x => `${x[0]}='${x[1]}'`).join(", ")}

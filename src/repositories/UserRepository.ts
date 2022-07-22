@@ -43,7 +43,7 @@ class UserRepository {
 `SELECT id, nome, email, admin
     FROM valoriza.usuario
     WHERE 1=1 ${Object.entries(usuario).map(x => {
-        if (x[1] === "admin")
+        if (x[0] === "admin")
             return ` AND ${x[0]}='${x[1]}'`
         
             return ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%')`
@@ -68,7 +68,7 @@ class UserRepository {
 `SELECT id, nome, email, admin ${buscaSenha ? ", senha" : ""}
     FROM valoriza.usuario
     WHERE 1=1 ${Object.entries(usuario).map(x => {
-        if (x[1] === "admin")
+        if (x[0] === "admin")
             return ` AND ${x[0]}='${x[1]}'`
         
             return ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%')`
