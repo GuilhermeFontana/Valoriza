@@ -3,9 +3,10 @@ import { Router } from "express";
 import { UserController } from "./controllers/UserController";
 import { TagController } from "./controllers/TagController";
 import { AuthenticateController } from "./controllers/AuthenticateController";
+import { ComplimentController } from "./controllers/ComplimentController";
 
 import ensureAdmin from "./middlewares/ensureAdmin";
-import { ComplimentController } from "./controllers/ComplimentController";
+import ensureAuthenticated from "./middlewares/ensureAuthenticated";
 
 
 const router = Router();
@@ -29,10 +30,10 @@ router.put("/users/update/:ID", userController.editar);
 router.delete("/users/remove/:ID", userController.remover);
 
 /* Rotas de  Etiqueta */
-router.post("/tags", ensureAdmin, tagController.criar)
+router.post("/tags", ensureAuthenticated, ensureAdmin, tagController.criar)
 
 /* Rotas de Elogio */
-router.post("/compliment", complimentController.criar);
+router.post("/compliment", ensureAuthenticated, complimentController.criar);
 
 
 router.use(function (req, res) {

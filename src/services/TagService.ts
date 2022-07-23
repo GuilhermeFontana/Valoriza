@@ -12,8 +12,7 @@ class TagService {
         if (!nome)
             throw new Error("Nome não preenchido");
         
-        
-        if ((await repository.buscarUm({ nome })).length > 0)
+        if (await repository.buscarUm({ nome }))
             throw new Error("Esta etiqueta já está cadastrado");
 
         return await repository.criar({ nome: toPascaCase(nome) });

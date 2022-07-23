@@ -31,7 +31,7 @@ class TagRepository {
         const sql = 
 `SELECT id, nome
     FROM valoriza.etiqueta
-    WHERE 1=1 AND ${Object.entries(etiqueta).map(x => ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%'`).join("")};`;
+    WHERE 1=1 ${Object.entries(etiqueta).map(x => ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%')`).join("")};`;
         
         return (await executarSQL(sql)).rows;
     }
@@ -51,7 +51,7 @@ class TagRepository {
         const sql = 
 `SELECT id, nome
     FROM valoriza.etiqueta
-    WHERE 1=1 AND ${Object.entries(etiqueta).map(x => ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%'`).join("")}
+    WHERE 1=1 ${Object.entries(etiqueta).map(x => ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%')`).join("")}
     LIMIT 1;`;
         
         return (await executarSQL(sql)).rows[0];
