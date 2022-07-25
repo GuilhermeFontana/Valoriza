@@ -33,7 +33,9 @@ router.delete("/users/remove/:ID", userController.remover);
 router.post("/tags", ensureAuthenticated, ensureAdmin, tagController.criar)
 
 /* Rotas de Elogio */
-router.post("/compliment", ensureAuthenticated, complimentController.criar);
+router.post("/compliment/send", ensureAuthenticated, complimentController.criar);
+router.post("/compliment/sended", ensureAuthenticated, complimentController.buscarMeusEviados);
+router.post("/compliment/received", ensureAuthenticated, complimentController.buscarMeusRecebidos);
 
 
 router.use(function (req, res) {

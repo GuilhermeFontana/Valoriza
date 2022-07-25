@@ -9,6 +9,13 @@ interface IComplimentInsert {
     mensagem?: string;
 }
 
+interface IComplimentFind {
+    remetente_id?: number;
+    destinatario_id?: number;
+    etiqueta_id?: number;
+    mensagem?: string;
+}
+
 const repository = new ComplimentRepository();
 const userServiece = new UserService();
 const etiquetaService = new TagService();
@@ -33,6 +40,13 @@ class ComplimentService {
             etiqueta_id, 
             mensagem
         });
+    }
+
+    async buscar({ remetente_id, destinatario_id, etiqueta_id }: IComplimentFind) {
+        if (!destinatario_id && !remetente_id)
+            throw new Error("Informe um destinatário ou um remetente")
+        
+        return await repository.buscar({ remetente_id, destinatario_id, etiqueta_id })
     }
 }
 

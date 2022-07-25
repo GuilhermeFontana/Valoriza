@@ -49,7 +49,7 @@ class ComplimentRepository {
         elogio = limparObjeto(elogio);
 
         const sql = 
-`SELECT id, usuid_remetente AS remetente, usuid_destinatario AS destinatario, etiqueta_id, mensagem
+`SELECT id, remetente_id AS remetente, destinatario_id AS destinatario, etiqueta_id as etiqueta, mensagem
     FROM valoriza.elogio
     WHERE 1=1 ${Object.entries(elogio).map(x => {
         if (x[0] === "mensagem")
@@ -57,13 +57,13 @@ class ComplimentRepository {
             
             return ` AND ${x[0]}='${x[1]}';`
     }).join("")}`;
-    
-        return await this.popularFKs((await executarSQL(sql)).rows);
+
+        return await this.popularFKs((await executarSQL(sql)).rows)
     }
     
     async buscarPorID(id: number) {
         const sql = 
-`SELECT id, usuid_remetente AS remetente, usuid_destinatario AS destinatario, etiqueta_id, mensagem
+`SELECT id, remetente_id AS remetente, destinatario_id AS destinatario, etiqueta_id as etiqueta, mensagem
     FROM valoriza.elogio
     WHERE id = ${id};`;
 
@@ -79,7 +79,7 @@ class ComplimentRepository {
         elogio = limparObjeto(elogio);
 
         const sql = 
-`SELECT id, usuid_remetente AS remetente, usuid_destinatario AS destinatario, etiqueta_id, mensagem
+`SELECT id, remetente_id AS remetente, destinatario_id AS destinatario, etiqueta_id as etiqueta, mensagem
     FROM valoriza.elogio
     WHERE 1=1 ${Object.entries(elogio).map(x => {
         if (x[0] === "mensagem")
@@ -105,11 +105,15 @@ WHERE id=${id};`
         const userServiece = new UserService();
         const etiquetaService = new TagService();
 
-        return elogios.map((e) => {
-            e.remetente = userServiece.buscarPorID(e.remetente);
-            e.destinatario = userServiece.buscarPorID(e.destinatario);
-            e.etiqueta = etiquetaService.buscarPorID(e.id);
-        })
+        return await Promise.all( 
+            elogios.map(async (e) => {
+                e.remetente = await userServiece.buscarPorID(e.remetente);
+                e.destinatario = await userServiece.buscarPorID(e.destinatario);
+                e.etiqueta = await etiquetaService.buscarPorID(e.etiqueta);
+
+                return e;
+            })
+        )
     }
 }
 
