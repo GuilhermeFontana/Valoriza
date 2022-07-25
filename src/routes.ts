@@ -30,7 +30,8 @@ router.put("/users/update/:ID", userController.editar);
 router.delete("/users/remove/:ID", userController.remover);
 
 /* Rotas de  Etiqueta */
-router.post("/tags", ensureAuthenticated, ensureAdmin, tagController.criar)
+router.post("/tags/create", ensureAuthenticated, ensureAdmin, tagController.criar)
+router.post("/tags/search", ensureAuthenticated, tagController.buscar)
 
 /* Rotas de Elogio */
 router.post("/compliment/send", ensureAuthenticated, complimentController.criar);

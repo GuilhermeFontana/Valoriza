@@ -1,14 +1,19 @@
 import { TagRepository } from "../repositories/TagRepository";
 import toPascaCase from "../utils/toPascalCase";
 
-interface ITagRequest {
+interface ITagInsert {
     nome: string;
 }
+
+interface ITagFIndUPdate {
+    nome: string;
+}
+
 
 const repository = new TagRepository();
 
 class TagService {
-    async criar({ nome }: ITagRequest) {
+    async criar({ nome }: ITagInsert) {
         if (!nome)
             throw new Error("Nome não preenchido");
         
@@ -16,6 +21,10 @@ class TagService {
             throw new Error("Esta etiqueta já está cadastrado");
 
         return await repository.criar({ nome: toPascaCase(nome) });
+    }
+
+    async buscar({ nome }: ITagFIndUPdate) {
+        return await repository.buscar({ nome: nome });
     }
 
     async buscarPorID(id: number) {
