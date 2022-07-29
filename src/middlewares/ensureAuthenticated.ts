@@ -28,7 +28,6 @@ export default function ensureAuthenticated (req: Request, res: Response, next: 
             id: Number(sub),
             email: email,
             admin: admin
-
         }
 
         return next();

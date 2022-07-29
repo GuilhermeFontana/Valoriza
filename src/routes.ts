@@ -24,10 +24,12 @@ router.post("/login", authenticateController.handle)
 
 /* Rotas de Usuário */
 router.post("/users/create", userController.criar);
-router.post("/users/search", userController.buscar);
-router.get("/users/search/:ID", userController.buscarPorId);
-router.put("/users/update/:ID", userController.editar);
-router.delete("/users/remove/:ID", userController.remover);
+router.post("/users/search", ensureAuthenticated, userController.buscar);
+router.get("/users/search/:ID", ensureAuthenticated, userController.buscarPorId);
+router.put("/users/update", ensureAuthenticated, userController.editar);
+router.put("/users/update/:ID", ensureAuthenticated, ensureAdmin, userController.editarOutro);
+router.delete("/users/remove", ensureAuthenticated, userController.remover);
+router.delete("/users/remove/:ID", ensureAuthenticated, ensureAdmin, userController.removerOutro);
 
 /* Rotas de  Etiqueta */
 router.post("/tags/create", ensureAuthenticated, ensureAdmin, tagController.criar)

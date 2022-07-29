@@ -23,6 +23,17 @@ class UserController {
     }
 
     async editar(req: Request, res: Response) {
+        const { id } = req.user;
+        const { nome, email, admin } = req.body;
+
+        res.json(await service.editar(Number(id), { 
+            nome,
+            email,
+            admin
+         }));
+    }
+
+    async editarOutro(req: Request, res: Response) {
         const { ID } = req.params;
         const { nome, email, admin } = req.body;
 
@@ -34,6 +45,12 @@ class UserController {
     }
 
     async remover(req: Request, res: Response) {
+        const { id } = req.user;
+
+        res.json(await service.remover(Number(id)));
+    }
+
+    async removerOutro(req: Request, res: Response) {
         const { ID } = req.params;
 
         res.json(await service.remover(Number(ID)));

@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2022-07-25T01:47:33.522Z",
+  "__export_date": "2022-07-29T02:04:16.886Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
       "_id": "req_5c8b034753534ddc8cae69cddf5f9bce",
       "parentId": "wrk_c3b8a90ca00c4ffaa667b5b354d28fd0",
-      "modified": 1658709291173,
+      "modified": 1659059936646,
       "created": 1658195480269,
       "url": "{{ _.baseUrl }}/login",
       "name": "Login",
@@ -15,7 +15,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\t\"email\": \"usu@email.com\",\n\t\t\"senha\": \"senha\"\n}"
+        "text": "{\n\t\t\"email\": \"admin@email.com\",\n\t\t\"senha\": \"admin\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -47,9 +47,233 @@
       "_type": "workspace"
     },
     {
+      "_id": "req_e766f1b89faf408aa00a617028b253c0",
+      "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
+      "modified": 1659060214047,
+      "created": 1658142389846,
+      "url": "{{ _.baseUrl }}/users/create",
+      "name": "Criar Usuário",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nome\": \"apagar\",\n\t\"email\": \"apagar@email.com\",\n\t\"senha\": \"apagar\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_b9c426543ae04fb4a094a7b7d13df88d"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1658323763716,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_278965bc430143f89ae7a6d11ad7b7b1",
+      "parentId": "wrk_c3b8a90ca00c4ffaa667b5b354d28fd0",
+      "modified": 1659059337275,
+      "created": 1658452047163,
+      "name": "Usuário",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1658708586662,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_617bd2afe67043da899656f0564abd1e",
+      "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
+      "modified": 1659060228968,
+      "created": 1658367493234,
+      "url": "{{ _.baseUrl }}/users/search",
+      "name": "Buscar Usuário",
+      "description": "",
+      "method": "POST",
+      "body": { "mimeType": "application/json", "text": "{\n}" },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_b9c426543ae04fb4a094a7b7d13df88d"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlQGVtYWlsLmNvbSIsImFkbWluIjpmYWxzZSwiaWF0IjoxNjU5MDU5MzI0LCJleHAiOjE2NTkxNDU3MjQsInN1YiI6IjMifQ.3xVAyQciLstWtRzwH4xeP_NH6s0H9WUNNj1pMG7IWAI"
+      },
+      "metaSortKey": -1658323763666,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_634c74914b90480d9a77eb339ffd5eb2",
+      "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
+      "modified": 1659060237510,
+      "created": 1658452077059,
+      "url": "{{ _.baseUrl }}/users/search/2",
+      "name": "Buscar Usuário por ID",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlQGVtYWlsLmNvbSIsImFkbWluIjpmYWxzZSwiaWF0IjoxNjU5MDU5MzI0LCJleHAiOjE2NTkxNDU3MjQsInN1YiI6IjMifQ.3xVAyQciLstWtRzwH4xeP_NH6s0H9WUNNj1pMG7IWAI"
+      },
+      "metaSortKey": -1658307728241.375,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_646968efe6054e65909aa4065c4294e1",
+      "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
+      "modified": 1659059945394,
+      "created": 1658453011339,
+      "url": "{{ _.baseUrl }}/users/update",
+      "name": "Editar Usuário",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"admin\": false\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_b9c426543ae04fb4a094a7b7d13df88d"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlQGVtYWlsLmNvbSIsImFkbWluIjpmYWxzZSwiaWF0IjoxNjU5MDU5MzI0LCJleHAiOjE2NTkxNDU3MjQsInN1YiI6IjMifQ.3xVAyQciLstWtRzwH4xeP_NH6s0H9WUNNj1pMG7IWAI"
+      },
+      "metaSortKey": -1658291692816.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_4ac3c78552ab423ca6e6f7df85a450d6",
+      "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
+      "modified": 1659059869926,
+      "created": 1659059256695,
+      "url": "{{ _.baseUrl }}/users/update/4",
+      "name": "Editar Outro Usuário",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nome\": \"apague-me\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_b9c426543ae04fb4a094a7b7d13df88d"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE2NTkwNTk3MzQsImV4cCI6MTY1OTE0NjEzNCwic3ViIjoiMiJ9.rz8ZLLnWYa9rXLo_nLnu-kqo96GsoG2alntRbCiThQs"
+      },
+      "metaSortKey": -1658291692791.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_2c3ff2a529c14006893c272e2f728217",
+      "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
+      "modified": 1659059941447,
+      "created": 1658453787134,
+      "url": "{{ _.baseUrl }}/users/remove",
+      "name": "Remover Usuário",
+      "description": "",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwYWdhckBlbWFpbC5jb20iLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY1OTA1OTkwNCwiZXhwIjoxNjU5MTQ2MzA0LCJzdWIiOiI0In0.462VYKqNafU3_sV3YRZjTa5gAIUhNCXZteTcUqaAce4"
+      },
+      "metaSortKey": -1658291692766.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_cdb7aab29e4746b0b8c8872fb67f7e69",
+      "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
+      "modified": 1659059886521,
+      "created": 1659059305329,
+      "url": "{{ _.baseUrl }}/users/remove/4",
+      "name": "Remover Outro Usuário",
+      "description": "",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE2NTkwNTk3MzQsImV4cCI6MTY1OTE0NjEzNCwic3ViIjoiMiJ9.rz8ZLLnWYa9rXLo_nLnu-kqo96GsoG2alntRbCiThQs"
+      },
+      "metaSortKey": -1657548555332.375,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
       "_id": "req_9c932d6efa7443748d5cdc9c34b66968",
       "parentId": "fld_c8e6441783924065bc6ed03a1dd15ebe",
-      "modified": 1658709291863,
+      "modified": 1659059232134,
       "created": 1658174592482,
       "url": "{{ _.baseUrl }}/tags/create",
       "name": "Criar Etiqueta",
@@ -233,157 +457,6 @@
         "disabled": false
       },
       "metaSortKey": -1655802688912,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_e766f1b89faf408aa00a617028b253c0",
-      "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
-      "modified": 1658709329818,
-      "created": 1658142389846,
-      "url": "{{ _.baseUrl }}/users/create",
-      "name": "Criar Usuário",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"nome\": \"Teste\",\n\t\"email\": \"teste@email.com\",\n\t\"senha\": \"teste\"\n}"
-      },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_b9c426543ae04fb4a094a7b7d13df88d"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658323763716,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_278965bc430143f89ae7a6d11ad7b7b1",
-      "parentId": "wrk_c3b8a90ca00c4ffaa667b5b354d28fd0",
-      "modified": 1658452047163,
-      "created": 1658452047163,
-      "name": "Usuário",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1658452047163,
-      "_type": "request_group"
-    },
-    {
-      "_id": "req_617bd2afe67043da899656f0564abd1e",
-      "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
-      "modified": 1658713610138,
-      "created": 1658367493234,
-      "url": "{{ _.baseUrl }}/users/search",
-      "name": "Buscar Usuário",
-      "description": "",
-      "method": "POST",
-      "body": { "mimeType": "application/json", "text": "{\n}" },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_b9c426543ae04fb4a094a7b7d13df88d"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658323763666,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_634c74914b90480d9a77eb339ffd5eb2",
-      "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
-      "modified": 1658455458998,
-      "created": 1658452077059,
-      "url": "{{ _.baseUrl }}/users/search/4",
-      "name": "Buscar Usuário por ID",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [],
-      "headers": [],
-      "authentication": {},
-      "metaSortKey": -1658307728241.375,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_646968efe6054e65909aa4065c4294e1",
-      "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
-      "modified": 1658709308986,
-      "created": 1658453011339,
-      "url": "{{ _.baseUrl }}/users/update/2",
-      "name": "EditarUsuário",
-      "description": "",
-      "method": "PUT",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"admin\": true\n}"
-      },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_b9c426543ae04fb4a094a7b7d13df88d"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658291692816.75,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_2c3ff2a529c14006893c272e2f728217",
-      "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
-      "modified": 1658709258069,
-      "created": 1658453787134,
-      "url": "{{ _.baseUrl }}/users/remove/2",
-      "name": "Remover Usuário",
-      "description": "",
-      "method": "DELETE",
-      "body": {},
-      "parameters": [],
-      "headers": [],
-      "authentication": {},
-      "metaSortKey": -1658291692766.75,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,

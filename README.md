@@ -8,6 +8,14 @@
 
     [ ] Não é permiitdo cadastrar usuário sem email
 
+- Edição de Usuário
+
+    [ ] Apenas usuários administradores podem editara outros usuários
+
+- Remoção de Usuário
+
+    [ ] Apenas usuários administradores podem reomver outros usuários
+
 - Cadastro de Etiqueta
 
     [ ] Não é permitido cadastrar mais de uma etiqueta com o mesmo nome

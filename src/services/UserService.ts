@@ -1,6 +1,7 @@
 import { hash } from "bcryptjs"
 import { UserRepository } from "../repositories/UserRepository";
 import toPascaCase from "../utils/toPascalCase";
+import { AuthenticateService } from "./AuthenticateService";
 
 interface IUserInsert {
     nome: string;
@@ -25,12 +26,19 @@ class UserService {
         if ((await repository.buscarUm({ email })))
             throw new Error("Este email já está cadastrado");
 
-        return await repository.criar({
+        const user = await repository.criar({
             nome: toPascaCase(nome),
             email: email.toLocaleLowerCase(),
             senha: await hash(senha, Number(process.env.SALT)), 
             admin
         });
+
+        const authService = new AuthenticateService();
+
+        return {
+            ...user,
+            token: (await (authService.executar({ email, senha }))).token
+        }
     }
 
     async buscar({ nome, email, admin }: IUserFindUpdate) {
