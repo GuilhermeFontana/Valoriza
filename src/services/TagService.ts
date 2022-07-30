@@ -33,6 +33,20 @@ class TagService {
 
         return await repository.buscarPorID(id);
     }
+
+    async editar(id: number, { nome }: ITagFIndUPdate) {
+        if (!id)
+            throw new Error("ID não informado");
+
+        const _nome = nome ? toPascaCase(nome) : nome;
+        
+        const etiqueta = await repository.editar(id, { nome: _nome });
+
+        if (!etiqueta)
+            throw new Error("Nenhuma etiqueta encontrada")
+
+        return etiqueta;
+    }
 }
 
 export { TagService }

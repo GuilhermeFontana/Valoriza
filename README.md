@@ -24,6 +24,10 @@
 
     [ ] Apenas usuários administradores podem cadastrar novas etiquetas
 
+- Edição de Etiquetas
+
+    [ ] Apenas usuários administradores podem editara etiquetas
+
 - Cadastro de elogios
 
     [ ] Não é permiitdo um usuário elogiar ele mesmo

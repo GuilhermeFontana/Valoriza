@@ -32,8 +32,9 @@ router.delete("/users/remove", ensureAuthenticated, userController.remover);
 router.delete("/users/remove/:ID", ensureAuthenticated, ensureAdmin, userController.removerOutro);
 
 /* Rotas de  Etiqueta */
-router.post("/tags/create", ensureAuthenticated, ensureAdmin, tagController.criar)
-router.post("/tags/search", ensureAuthenticated, tagController.buscar)
+router.post("/tags/create", ensureAuthenticated, ensureAdmin, tagController.criar);
+router.post("/tags/search", ensureAuthenticated, tagController.buscar);
+router.put("/tags/update/:ID", ensureAuthenticated, ensureAdmin, tagController.editar);
 
 /* Rotas de Elogio */
 router.post("/compliment/send", ensureAuthenticated, complimentController.criar);

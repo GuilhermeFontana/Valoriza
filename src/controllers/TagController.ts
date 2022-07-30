@@ -15,6 +15,13 @@ class TagController {
     
         res.json(await service.buscar({ nome }));
     }
+
+    async editar(req: Request, res: Response) {
+        const { ID } = req.params;
+        const { nome } = req.body;
+    
+        res.json(await service.editar(Number(ID), { nome }));
+    }
 }
 
 export { TagController }
