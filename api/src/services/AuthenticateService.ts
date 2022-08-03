@@ -28,7 +28,11 @@ class AuthenticateService {
                 expiresIn: process.env.EXPIRES_TIME
         })
 
-        return { token }
+        return { 
+            token, 
+            nome: usu.nome,
+            admin: usu.admin
+        }
     }
 }
 
