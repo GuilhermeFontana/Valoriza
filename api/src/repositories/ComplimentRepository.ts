@@ -61,7 +61,7 @@ class ComplimentRepository {
         return await this.popularFKs((await executarSQL(sql)).rows)
     }
     
-    async buscarPorID(id: number) {
+    async buscarPorID(id: number, popularFKs: boolean = true) {
         const sql = 
 `SELECT id, remetente_id AS remetente, destinatario_id AS destinatario, etiqueta_id as etiqueta, mensagem
     FROM valoriza.elogio
@@ -72,6 +72,9 @@ class ComplimentRepository {
         if (rowCount === 0)
             return null;
 
+        if (!popularFKs)
+            return rows[0]
+            
         return await this.popularFKs(rows)[0];
     }
     

@@ -40,6 +40,8 @@ router.put("/tags/update/:ID", ensureAuthenticated, ensureAdmin, tagController.e
 router.post("/compliment/send", ensureAuthenticated, complimentController.criar);
 router.post("/compliment/sended", ensureAuthenticated, complimentController.buscarMeusEviados);
 router.post("/compliment/received", ensureAuthenticated, complimentController.buscarMeusRecebidos);
+router.post("/compliment/received/:ID", ensureAuthenticated, complimentController.buscarRecebidosPorUsuario);
+router.delete("/compliment/remove/:ID", ensureAuthenticated, complimentController.removerElogio);
 
 
 router.use(function (req, res) {

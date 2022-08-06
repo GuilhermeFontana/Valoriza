@@ -30,6 +30,7 @@ class AuthenticateService {
 
         return { 
             token, 
+            id: usu.id,
             nome: usu.nome,
             admin: usu.admin
         }
