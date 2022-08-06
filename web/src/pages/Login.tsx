@@ -9,8 +9,8 @@ import '../styles/login.scss'
 export function Login(){
     const history = useHistory();
     const { signInWithEmail } = useAuth();
-    const [ email, setEmail ] = useState("");
-    const [ senha, setSenha ] = useState("");
+    const [ email, setEmail ] = useState("admin@email.com");
+    const [ senha, setSenha ] = useState("admin");
 
     async function handleSubmit(event: FormEvent) {
         event.preventDefault();

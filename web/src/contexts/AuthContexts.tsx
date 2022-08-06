@@ -10,6 +10,7 @@ type AuthContextProviderProps = {
 }
 type userType = {
     token: string,
+    id: number,
     nome: string,
     email: string,
     admin: boolean
@@ -28,6 +29,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     const history  = useHistory();
     const [user, setUser] = useState<userType>({
       token: "",
+      id: 0,
       nome: "",
       email: "",
       admin: false
@@ -55,13 +57,14 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       const result = await api.post("/login", auth);
       
       if(result && result.data) {
-        const { token, nome, admin } = result.data
+        const { token, id, nome, admin } = result.data
   
         if (!token || (!admin && admin !== false)) 
           throw new Error("Algumas informações não foram encontradas na sua conta Google")        
 
         const user = { 
           token: "Bearer " + token, 
+          id,
           nome,
           email: auth.email,
           admin 
