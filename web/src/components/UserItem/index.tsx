@@ -4,6 +4,8 @@ import { useAuth } from '../../hooks/useAuth';
 
 import { ComplimentForm } from '../ComplimentForm';
 
+import removeUserImg from '../../assets/images/remove-user.svg';
+import editUserImg from '../../assets/images/edit-user.svg';
 import elogiarImg from '../../assets/images/elogiar.svg';
 import verElogiosImg from '../../assets/images/ver-elogios.svg';
 
@@ -11,11 +13,9 @@ import './style.scss'
 
 
 type TUserType = {
-    usu: {
-        id: number,
-        nome: string,
-        email: string
-    }
+    id: number,
+    nome: string,
+    email: string
 }
 
 type TCompliment = {
@@ -27,8 +27,12 @@ type TCompliment = {
     }
 }
 
+type UserItemProps = {
+    usu: TUserType,
+    setUserEdit: (userId: number) => void
+}
 
-export function UserItem({usu}: TUserType) {
+export function UserItem({usu, setUserEdit}: UserItemProps) {
     const { user } = useAuth();
     const [ compliments, setCompliments ] = useState<TCompliment[]>([])
     const [ complimentVisible, setcomplimentVisible ] = useState(false);
@@ -91,11 +95,11 @@ export function UserItem({usu}: TUserType) {
     return (
         <li className='user'>
             <div className='data'>
-                <header>
+                <div className='user-infos'>
                     <strong>{usu.nome}</strong>
                     <span>{usu.email}</span>  
-                </header>
-                <footer>
+                </div>
+                <div className='actions'>
                     <button
                         type="button"
                     >
@@ -117,10 +121,29 @@ export function UserItem({usu}: TUserType) {
                         />
                     </button>
                     }
-                </footer>
+                    {user.admin && <>
+                        <button
+                            type="button"
+                        >
+                            <img 
+                                src={editUserImg} 
+                                alt="Editar usuário"
+                                onClick={() => {
+                                    setUserEdit(usu.id)
+                                    window.scroll(0,0);
+                                }}
+                            />
+                        </button>
+                        <button
+                            type="button"
+                        >
+                            <img src={removeUserImg} alt="Remover usuário"/>
+                        </button>
+                    </>}
+                </div>
             </div>
             
-            <footer className={`compliment`}>
+            <footer className={`compliments`}>
                 <>
                 {complimentingVisible &&
                     <ComplimentForm
@@ -129,15 +152,19 @@ export function UserItem({usu}: TUserType) {
                     />
                 }
                 {complimentVisible &&
-                    compliments.map((x) => {
-                        return <ComplimentForm
-                            key={x.id}
-                            usuId={usu.id}
-                            compliment={x}
-                            handleRemoveCompliment={handleRemoveCompliment}
-                        />
-                    })
-                }
+                    (compliments.length > 0 
+                        ? compliments.map((x) => {
+                            return <ComplimentForm
+                                key={x.id}
+                                usuId={usu.id}
+                                compliment={x}
+                                handleRemoveCompliment={handleRemoveCompliment}
+                            />
+                        })
+                        :<div className="no-compliments">
+                            <strong>Este usuário ainda não foi elogiado :,( </strong>
+                        </div>
+                    )}
                 </>
             </footer>
         </li>

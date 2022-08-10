@@ -11,12 +11,25 @@ html, body, #root {
     height: 100%;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body { 
     -webkit-font-smoothing: antialiased;
 
-    background-color: #ececec;
+    background-image: linear-gradient(270deg,#cc6aa5,#3e91cc,#2dcca7);;
 }
 
 body, input, button { 
     font-family: Roboto, sans-serif;
+}
+
+@keyframes bg{
+    0% { 
+        background-position:100% 50%
+    }
+    100% { 
+        background-position: 0 50%
+    }
 }

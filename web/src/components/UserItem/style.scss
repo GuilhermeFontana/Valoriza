@@ -13,9 +13,9 @@
 
     .data {
         display: flex;
+        justify-content: space-between;
 
-        header {
-            flex:1;
+        .user-infos {
             display: flex;
             justify-content: flex-start;
             flex-direction: column;
@@ -31,9 +31,7 @@
             }
         }
 
-        footer {
-            flex:1;
-
+        .actions {
             display: flex;
             justify-content: flex-end;
 
@@ -47,15 +45,15 @@
         }
     }
 
-    .answer { 
-        display: block;
-        gap: 10px;
-        
-        margin-top: 15px;
-    }
+    .compliments {
+        margin-top: 15px;  
 
-    .answer + .answer {
-        margin-top: 0px;
+        .no-compliments {
+            display: flex;
+            justify-content: center;
+
+            color: #888;
+        }
     }
 }
 
@@ -69,3 +67,14 @@
         transform: translate(0px, 0px);
     }
 }   
+
+@media (max-width: 740px) {
+    .user {
+        width: 350px;
+
+        .data .user-infos { 
+            overflow: hidden;
+        }
+        
+    }
+}
