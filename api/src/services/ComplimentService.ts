@@ -40,12 +40,16 @@ class ComplimentService {
         if (!(await etiquetaService.buscarPorID(etiqueta_id)))
             throw new Error("Etiqueta não encontrada");
 
-        return await repository.criar({
+        const compliment = await repository.criar({
             remetente_id, 
             destinatario_id, 
             etiqueta_id, 
             mensagem
         });
+
+        compliment.etiqueta_id = await etiquetaService.buscarPorID(compliment.etiqueta_id);
+
+        return compliment;
     }
 
     async buscar({ remetente_id, destinatario_id, etiqueta_id }: IComplimentFind) {
