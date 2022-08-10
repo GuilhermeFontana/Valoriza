@@ -72,11 +72,12 @@
         .admin-checkbox {
             display: flex;
             align-items: center;
-            gap: 5px;
             justify-content: flex-start;
+            gap: 5px;
 
-            color: #667;
             font-size: 14px;
+            
+            color: #667;
         }
     }
 }
