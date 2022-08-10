@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Switch } from  'react-router-dom'  
+import { ApiContextProvider } from './contexts/ApiContexts';
 
 import { AuthContextProvider } from './contexts/AuthContexts';
 
@@ -9,10 +10,12 @@ function App() {
   return (
     <BrowserRouter forceRefresh>
       <AuthContextProvider>
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/home" component={Home} />
-        </Switch>
+        <ApiContextProvider>
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/home" component={Home} />
+          </Switch>
+        </ApiContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
   )

@@ -1,9 +1,9 @@
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import { useEffect, useState } from "react"
+import { useApi } from '../../hooks/useApi';
+
 import "./style.scss"
-import api from '../../services/api';
-import { useAuth } from '../../hooks/useAuth';
 
 type TTag = {
     id: number,
@@ -21,22 +21,24 @@ type TagsModifyFormProps = {
 
 
 export function TagsModifyForm(props: TagsModifyFormProps) {
-    const { user } = useAuth();
+    const { getTags } = useApi();
     const [selectedTab, setSelectedTab] = useState(0)
-    const [ tags, setTags ] = useState([])
+    const [ tags, setTags ] = useState<TSelect[]>([])
     const [ complimentsTags, setComplimentsTags ] = useState<TSelect[]>()
 
     useEffect(() => {
-        api.post("/tags/search", null, {
-            headers: {
-                Authorization: user.token
-            }
-        })
-        .then(res => setTags(
-            res.data.map((x: TTag) => {
-                return { value: x.id, label: `#${x.nome}` }
-            })
-        ))
+        async function executeGetTags() {
+            const newTags = await getTags();
+    
+            if (newTags && newTags.length > 0)
+                setTags(
+                    newTags.map((tag: TTag) => {
+                        return { value: tag.id.toString(), label: `#${tag.nome}` }
+                    })
+                )
+        }
+
+        executeGetTags();
         
         // eslint-disable-next-line
     }, [])

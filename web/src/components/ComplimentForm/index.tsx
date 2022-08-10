@@ -1,8 +1,8 @@
 import { FormEvent, useEffect, useState } from 'react';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
+import { useApi } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
-import api from '../../services/api';
 
 import "./style.scss"
 
@@ -16,7 +16,7 @@ type TComplimentForm = {
             nome: string
         }
     };
-    handleSendCompliment?: (destinatario_id: number, etiqueta_id: number, etiqueta_nome: string, mensagem: string) => {}
+    handleSendCompliment?: (destinatario_id: number, etiqueta_id: number, mensagem: string) => {}
     handleRemoveCompliment?: (compliment_id: number) => {}
 }
 
@@ -32,7 +32,8 @@ type TSelect = {
 
 export function ComplimentForm(props: TComplimentForm) {
     const { user } = useAuth();
-    const [ tags, setTags ] = useState([])
+    const { getTags } = useApi();
+    const [ tags, setTags ] = useState<TSelect[]>([])
     const [ message, setMessage ] = useState(props.compliment?.mensagem || "");
     const [ complimentsTags, setComplimentsTags ] = useState<TSelect[]>(props.compliment
         ? [{value: props.compliment.etiqueta.id.toString(), label:props.compliment.etiqueta.nome }]
@@ -42,17 +43,21 @@ export function ComplimentForm(props: TComplimentForm) {
     const btnTetx = !props.compliment ? "Elogiar" : "Excluir"
 
     useEffect(() => {
-        if (!props.compliment)
-            api.post("/tags/search", null, {
-                headers: {
-                    Authorization: user.token
+        
+        async function executeGetTags() {
+            if (!props.compliment) {
+                const newTags = await getTags();
+    
+                if (newTags && newTags.length > 0)
+                    setTags(
+                        newTags.map((tag: TTag) => {
+                            return { value: tag.id.toString(), label: `#${tag.nome}` }
+                        })
+                    )
                 }
-            })
-            .then(res => setTags(
-                res.data.map((x: TTag) => {
-                    return { value: x.id, label: `#${x.nome}` }
-                })
-            ))
+        }
+
+        executeGetTags();
         
         // eslint-disable-next-line
     }, [])
@@ -73,7 +78,6 @@ export function ComplimentForm(props: TComplimentForm) {
                 props.handleSendCompliment(
                     props.usuId, 
                     Number(complimentsTags[0].value), 
-                    complimentsTags[0].label,
                     message
                 )
         }
@@ -87,6 +91,7 @@ export function ComplimentForm(props: TComplimentForm) {
         >
             <textarea
                 placeholder="Elogie..."
+                required
                 value={message}
                 readOnly={!!props.compliment}
                 onChange={(e) => setMessage(e.target.value)}
@@ -95,7 +100,7 @@ export function ComplimentForm(props: TComplimentForm) {
                 className='actions'>
                 {!props.compliment ?
                     <Select
-                        className='select' 
+                        className='select'
                         isMulti 
                         components={makeAnimated()}
                         closeMenuOnSelect={false}

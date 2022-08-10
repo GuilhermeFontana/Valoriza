@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import api from '../../services/api';
 import { useAuth } from '../../hooks/useAuth';
 
 import { ComplimentForm } from '../ComplimentForm';
@@ -10,6 +9,7 @@ import elogiarImg from '../../assets/images/elogiar.svg';
 import verElogiosImg from '../../assets/images/ver-elogios.svg';
 
 import './style.scss'
+import { useApi } from '../../hooks/useApi';
 
 
 type TUserType = {
@@ -28,67 +28,47 @@ type TCompliment = {
 }
 
 type UserItemProps = {
-    usu: TUserType,
+    currentUser: TUserType,
     setUserEdit: (userId: number) => void
 }
 
-export function UserItem({usu, setUserEdit}: UserItemProps) {
+export function UserItem({currentUser, setUserEdit}: UserItemProps) {
     const { user } = useAuth();
+    const { getCompliments, createCompliment, removeCompliment } = useApi();
     const [ compliments, setCompliments ] = useState<TCompliment[]>([])
     const [ complimentVisible, setcomplimentVisible ] = useState(false);
     const [ complimentingVisible, setComplimentingVisible ] = useState(false);
 
 
     useEffect(() => {
-        if (complimentVisible){
-            api.post(`/compliment/received/${usu.id}`, null, {
-                headers: {
-                    Authorization: user.token
-                }
-            })
-            .then(res => 
-                setCompliments(res.data)
-            )
-            
+        async function execute() {
+            if (complimentVisible){
+                const newCompliments = await getCompliments(currentUser)
+                    
+                if (newCompliments && newCompliments.length > 0)
+                    setCompliments(newCompliments)
+            }
         }
+
+        execute();
         
         // eslint-disable-next-line
     }, [complimentVisible])
 
 
-    async function handleSendCompliment(destinatario_id: number, etiqueta_id: number, etiqueta_nome: string, mensagem: string) {
-        await api.post("/compliment/send", 
-            {
-                destinatario_id,
-                etiqueta_id,
-                mensagem
-            },
-            {
-            headers: {
-                Authorization: user.token
-            }            
-        })
-        .then(res => {
-            res.data.etiqueta = {
-                id: etiqueta_id,
-                nome: etiqueta_nome
-            };
-            
-            setCompliments([ ...compliments, res.data]);
+    async function handleSendCompliment(destinatario_id: number, etiqueta_id: number, mensagem: string) {
+        const newCompliment = await createCompliment(destinatario_id, etiqueta_id, mensagem);
+        
+        if (newCompliment) {            
+            setCompliments([ ...compliments, newCompliment]);
             setComplimentingVisible(false);
-        })
+        }
     }
 
     async function handleRemoveCompliment(compliment_id: number) {
-        await api.delete(`/compliment/remove/${compliment_id}`,  
-        {
-            headers: {
-                Authorization: user.token
-            }            
-        })
-        .then(res => {            
-            setCompliments(compliments.filter(x => x.id !== compliment_id));
-        })
+        await removeCompliment(compliment_id);             
+        
+        setCompliments(compliments.filter(x => x.id !== compliment_id));
     }
 
 
@@ -96,8 +76,8 @@ export function UserItem({usu, setUserEdit}: UserItemProps) {
         <li className='user'>
             <div className='data'>
                 <div className='user-infos'>
-                    <strong>{usu.nome}</strong>
-                    <span>{usu.email}</span>  
+                    <strong>{currentUser.nome}</strong>
+                    <span>{currentUser.email}</span>  
                 </div>
                 <div className='actions'>
                     <button
@@ -109,7 +89,7 @@ export function UserItem({usu, setUserEdit}: UserItemProps) {
                             onClick={() => { setcomplimentVisible(!complimentVisible) }}
                         />
                     </button>
-                    {user.id !== usu.id &&
+                    {user.id !== currentUser.id &&
                     <button
                         type="button"
                     >
@@ -129,7 +109,7 @@ export function UserItem({usu, setUserEdit}: UserItemProps) {
                                 src={editUserImg} 
                                 alt="Editar usuário"
                                 onClick={() => {
-                                    setUserEdit(usu.id)
+                                    setUserEdit(currentUser.id)
                                     window.scroll(0,0);
                                 }}
                             />
@@ -147,7 +127,7 @@ export function UserItem({usu, setUserEdit}: UserItemProps) {
                 <>
                 {complimentingVisible &&
                     <ComplimentForm
-                        usuId={usu.id}
+                        usuId={currentUser.id}
                         handleSendCompliment={handleSendCompliment}
                     />
                 }
@@ -156,13 +136,15 @@ export function UserItem({usu, setUserEdit}: UserItemProps) {
                         ? compliments.map((x) => {
                             return <ComplimentForm
                                 key={x.id}
-                                usuId={usu.id}
+                                usuId={currentUser.id}
                                 compliment={x}
                                 handleRemoveCompliment={handleRemoveCompliment}
                             />
                         })
                         :<div className="no-compliments">
-                            <strong>Este usuário ainda não foi elogiado :,( </strong>
+                            <strong>
+                                Este usuário ainda não foi elogiado 😢
+                            </strong>
                         </div>
                     )}
                 </>
