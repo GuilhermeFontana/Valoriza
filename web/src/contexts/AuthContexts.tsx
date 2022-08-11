@@ -1,6 +1,6 @@
 import { useState, createContext, ReactNode, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import Cookies from 'js-cookie'
+import { getCookies, setCookies } from '../services/cookies'
 
 import api from '../services/api'
 
@@ -37,7 +37,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
 
     useEffect(() => {  
       async function loadUser() {
-        const user: userType = JSON.parse(Cookies.get("user") || "{}");
+        const user: userType = getCookies("user");
         
         if (!user.token && history.location.pathname !== "/login")
           history.push("/login");
@@ -72,7 +72,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
           
         setUser(user)
 
-        Cookies.set('user', JSON.stringify(user));
+        setCookies('user', user);
       }
     }
   
