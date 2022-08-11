@@ -10,8 +10,10 @@ type ApiContextProviderProps = {
 type ApiContextType = {
     getUsers: () => Promise<userType[]>
     getTags: () => Promise<tagType[]>
-    getCompliments: (currentUser: userType) => Promise<TCompliment[]>
-    createCompliment: (destinatario_id: number, etiqueta_id: number, mensagem: string) => Promise<TCompliment>
+    createTag: (nome: string) => Promise<tagType>
+    removeTag (tag_id: number): void
+    getCompliments: (currentUser: userType) => Promise<complimentType[]>
+    createCompliment: (destinatario_id: number, etiqueta_id: number, mensagem: string) => Promise<complimentType>
     removeCompliment(compliment_id: number): void 
 }
 
@@ -24,7 +26,7 @@ type tagType = {
     id: number,
     nome: string
 }
-type TCompliment = {
+type complimentType = {
     id: number,
     mensagem: string,
     etiqueta: tagType
@@ -61,12 +63,34 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
         })
         .then(res => res.data)
     }
+
+    async function createTag(nome: string): Promise<tagType> {
+        return await api.post("/tags/create", 
+            {
+                nome
+            }, 
+            {
+            headers: {
+                Authorization: user.token
+            }
+        })
+        .then(res => res.data)
+    }
     
+    async function removeTag(tag_id: number) {
+        await api.delete(`/tags/remove/${tag_id}`,  
+            {
+                headers: {
+                    Authorization: user.token
+                }            
+            })
+    }
+
     //#endregion
 
     //#region Compliment
         
-        async function getCompliments(currentUser: userType): Promise<TCompliment[]> {
+        async function getCompliments(currentUser: userType): Promise<complimentType[]> {
             return await api.post(`/compliment/received/${currentUser.id}`, null, {
                 headers: {
                     Authorization: user.token
@@ -75,7 +99,7 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
             .then(res => res.data)
         }
 
-        async function createCompliment(destinatario_id: number, etiqueta_id: number, mensagem: string): Promise<TCompliment> {
+        async function createCompliment(destinatario_id: number, etiqueta_id: number, mensagem: string): Promise<complimentType> {
             return await api.post("/compliment/send", 
                 {
                     destinatario_id,
@@ -108,7 +132,9 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
     return (
         <ApiContext.Provider value={{
             getUsers, 
-            getTags, 
+            getTags,
+            createTag,
+            removeTag,
             getCompliments, 
             createCompliment,
             removeCompliment

@@ -10,12 +10,12 @@ function App() {
   return (
     <BrowserRouter forceRefresh>
       <AuthContextProvider>
-        <ApiContextProvider>
           <Switch>
             <Route path="/login" component={Login} />
-            <Route path="/home" component={Home} />
+            <ApiContextProvider>
+              <Route path="/home" component={Home} />
+            </ApiContextProvider>
           </Switch>
-        </ApiContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
   )
