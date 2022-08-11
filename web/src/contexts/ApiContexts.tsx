@@ -9,9 +9,12 @@ type ApiContextProviderProps = {
 
 type ApiContextType = {
     getUsers: () => Promise<userType[]>
+    createUser: (name: string, email: string, password: string, confPassword: string, admin: boolean) => Promise<userType>
+    updateUser: (userId: number, name: string, email: string, admin: boolean) => Promise<userType>
+    removeUser (userId: number): void
     getTags: () => Promise<tagType[]>
     createTag: (nome: string) => Promise<tagType>
-    removeTag (tag_id: number): void
+    removeTag (tagId: number): void
     getCompliments: (currentUser: userType) => Promise<complimentType[]>
     createCompliment: (destinatario_id: number, etiqueta_id: number, mensagem: string) => Promise<complimentType>
     removeCompliment(compliment_id: number): void 
@@ -43,12 +46,61 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
         if (!user)
             return [];
 
-        return await api.post<userType[]>("/users/search", null, {
+        return await api.post("/users/search", null, {
             headers: {
                 Authorization: user.token
             }
         })
-            .then(res => res.data);
+        .then(res => res.data);
+    }
+
+    async function createUser(name: string, email: string, password: string, confPassword: string, admin: boolean): Promise<userType> {
+        return await api.post("/users/create", 
+            {
+                nome: name,
+                email,
+                senha: password,
+                confSenha: confPassword,
+                admin
+            }, 
+            {
+                headers: {
+                    Authorization: user.token
+                }
+            }
+        )
+        .then(res => res.data);
+    }
+
+    async function updateUser(userId: number, name: string, email: string, admin: boolean): Promise<userType> {
+        
+        return await api.put(`/users/update/${userId}`,
+            {
+                nome: name,
+                email,
+                admin
+            },
+            {
+                headers: {
+                    Authorization: user.token
+                } 
+            }
+        )
+        .then(res => res.data)
+        
+    }
+
+    async function removeUser(userId: number) {
+        if (!user)
+            return;
+
+        await api.delete(`/users/remove/${userId}`,  
+        {
+            headers: {
+                Authorization: user.token
+            }            
+        })
+
     }
 
     //#endregion
@@ -77,8 +129,8 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
         .then(res => res.data)
     }
     
-    async function removeTag(tag_id: number) {
-        await api.delete(`/tags/remove/${tag_id}`,  
+    async function removeTag(tagId: number) {
+        await api.delete(`/tags/remove/${tagId}`,  
             {
                 headers: {
                     Authorization: user.token
@@ -131,7 +183,10 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
     
     return (
         <ApiContext.Provider value={{
-            getUsers, 
+            getUsers,
+            createUser,
+            updateUser,
+            removeUser,
             getTags,
             createTag,
             removeTag,

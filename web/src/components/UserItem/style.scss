@@ -23,6 +23,12 @@
             strong {
                 color: #895afd;
                 font-size: 20px;
+
+                
+                overflow: hidden;
+                -webkit-line-clamp: 1;
+                white-space: nowrap; 
+                text-overflow: ellipsis;
             }
 
             span {

@@ -1,20 +1,29 @@
-import { useEffect, useState } from "react"
+import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react"
+import { useApi } from "../../hooks/useApi";
 import { useAuth } from "../../hooks/useAuth";
 import api from "../../services/api";
+import { updateCookies } from "../../services/cookies";
 import "./style.scss"
 
+type userType = {
+    id: number,
+    nome: string,
+    email: string
+}
 type UserModifyFormProps = {
     userId?: number,
-    handleCancel: () => void
+    closeForm: () => void,
+    usersState: ({users: userType[], setUsers: Dispatch<SetStateAction<userType[]>>})
 }
 
 export function UserModifyForm(props: UserModifyFormProps) {
-    const { user } = useAuth();
+    const { user, updateLoggedUser } = useAuth();
+    const { createUser, updateUser } = useApi();
 
-    const [nome, setNome] = useState("");
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
-    const [confSenha, setConfSenha] = useState("");
+    const [password, setPassword] = useState("");
+    const [confPassword, setConfPassword] = useState("");
     const [admin, setAdmin] = useState(false);
 
     useEffect(() => {
@@ -25,53 +34,108 @@ export function UserModifyForm(props: UserModifyFormProps) {
                     Authorization: user.token
                 }            
             }).then(res => {
-                setNome(res.data.nome);
+                setName(res.data.nome);
                 setEmail(res.data.email);
                 setAdmin(res.data.admin);
             })
-        }            
-    })
+        }  
+        
+        // eslint-disable-next-line
+    }, [props.userId])
 
+    function clearForm() { 
+        setName("");
+        setEmail("");
+        setPassword("")
+        setConfPassword("");
+        setAdmin(false);
+    }
+
+    async function handleCreateUser(e: FormEvent) {
+        e.preventDefault();
+        
+        const { users, setUsers } = props.usersState
+
+        const newUser = await createUser(name, email, password, confPassword, admin);
+
+        if (newUser){
+            setUsers([...users, newUser]);
+            clearForm();
+        }
+    }
+
+    async function handleUpdateUser(e: FormEvent) {
+        e.preventDefault();
+
+
+        if (props.userId) {
+            const { users, setUsers } = props.usersState
+
+            const newUser = await updateUser(props.userId, name, email, admin);
+
+            if (newUser) {
+                setUsers(users.map((usu) => {
+                    
+                    if (usu.id !== props.userId)
+                        return usu;
+
+                    return {...usu, ...newUser}
+                }));
+
+                clearForm();
+
+                if (user.id === props.userId){
+                    updateCookies("user", {nome: name, email, admin})
+                    updateLoggedUser({nome: name, email, admin});
+                }
+            }
+        }
+    }
+    
     return (
         <div className="user-modify">
             <h2>Novo Usuário</h2>
-            <form>
+            <form onSubmit={props.userId ? handleUpdateUser : handleCreateUser}>
                 <input 
                     type="text" 
                     placeholder="Nome Completo"
-                    value={nome}
-                    onChange={(e) => setNome(e.target.value)}
+                    value={name}
+                    required
+                    onChange={(e) => setName(e.target.value)}
                 />
                 <input 
                     type="email" 
                     placeholder="Email"
                     value={email}
+                    required
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 {!props.userId && <>
                     <input 
                         type="password" 
-                        placeholder="Senha"
-                        value={senha}
-                        onChange={(e) => setSenha(e.target.value)}
+                        placeholder="Password"
+                        value={password}
+                        required
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <input 
                         type="password" 
-                        placeholder="Confirmação da Senha"
-                        value={confSenha}
-                        onChange={(e) => setConfSenha(e.target.value)}
+                        placeholder="Confirmação da Password"
+                        value={confPassword}
+                        required
+                        onChange={(e) => setConfPassword(e.target.value)}
                     />
                 </>}
                 <div className="admin-checkbox">
                     <input 
                         type="checkbox"
                         checked={admin}
-                        onChange={(e) => console.log(e)}
+                        onChange={(e) => setAdmin(e.target.checked)}
                     />
                     <label>Administrador</label>
                 </div>
                 <button type="submit">Salvar</button>
-                <span onClick={props.handleCancel} >Cancelar</span>
+                <span onClick={props.closeForm} >Cancelar</span>
             </form>
         </div>
     )

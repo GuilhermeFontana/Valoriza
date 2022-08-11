@@ -30,13 +30,12 @@
 
         .user-name {
             width: 300px;
-        
-            overflow: hidden;
-            text-overflow: ellipsis;
             
             box-shadow: 0 2px 12px rgba(131, 90, 253, 0.2);
             border-radius: 8px;
+            padding: 5px;
 
+            overflow: hidden;
 
             display: flex;
             justify-content: center;
@@ -46,6 +45,11 @@
                 font-family: "Roboto", sans-serif;
                 font-size: 18px;
                 color: #895afd;
+
+                overflow: hidden;
+                -webkit-line-clamp: 1;
+                white-space: nowrap; 
+                text-overflow: ellipsis;
             }
         }
     }

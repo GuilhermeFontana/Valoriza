@@ -16,19 +16,19 @@ type userType = {
 
 export function Home() {
     const { user } = useAuth();
-    const { getUsers } = useApi();
+    const { getUsers, removeUser } = useApi();
     const [ users, setUsers ] = useState<userType[]>([]);
     const [ crateUserOrTag, setCrateUserOrTag ] = useState(0);
     const [ userEditId, setUserEdit ] = useState(0);
 
     useEffect(() => {
-        handleGetDevs();
+        handleGetUsers();
             
         // eslint-disable-next-line
     }, [user])
             
     
-    async function handleGetDevs() {
+    async function handleGetUsers() {
         if (!user)
             return;
 
@@ -39,12 +39,17 @@ export function Home() {
             
     }
 
-    function handleEditDev(usuId: number) {
+    function handleSetEditUser(usuId: number) {
         setUserEdit(usuId);
         setCrateUserOrTag(2);
     }
 
+    async function handleRemoveUser(userId: number) {
+        await removeUser(userId);
 
+        setUsers(users.filter(user => user.id !== userId))
+    }
+    
     return (
         <div id="home">
             <nav>
@@ -73,7 +78,7 @@ export function Home() {
                 </>}
             </nav>
             <div className="body">
-                {crateUserOrTag !== 0 &&
+                {user.admin && crateUserOrTag !== 0 &&
                     <aside>
                         {crateUserOrTag === 1 
                         ? <div className="tag-create-form">
@@ -83,11 +88,15 @@ export function Home() {
                         </div>
                         : <div className="user-create-form">
                             <UserModifyForm 
-                                handleCancel={() => {
+                                closeForm={() => {
                                     setCrateUserOrTag(0)
                                     setUserEdit(0);
                                 }}
                                 userId={userEditId}
+                                usersState={{
+                                    users,
+                                    setUsers
+                                }}
                             />
                         </div>}
                     </aside>
@@ -99,7 +108,8 @@ export function Home() {
                                 <UserItem 
                                     key={usu.id}
                                     currentUser={{...usu}}
-                                    setUserEdit={handleEditDev}
+                                    setUserEdit={handleSetEditUser}
+                                    removeUser={handleRemoveUser}
                                 />
                             ))}
                         </ul>

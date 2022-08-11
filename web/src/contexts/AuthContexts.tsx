@@ -21,6 +21,7 @@ type authType = {
 }
 type AuthContextType = {
     user: userType,
+    updateLoggedUser: (newUser: {nome: string, email: string, admin: boolean}) => void
     signInWithEmail: (auth: authType) => Promise<void>
 }
 export const AuthContext = createContext({} as AuthContextType)
@@ -75,9 +76,13 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         setCookies('user', user);
       }
     }
+
+    async function updateLoggedUser(newUser: {nome: string, email: string, admin: boolean}) { 
+      setUser({...user, ...newUser})
+    }
   
     return (
-        <AuthContext.Provider value={{user, signInWithEmail}}>
+        <AuthContext.Provider value={{user, updateLoggedUser, signInWithEmail}}>
           {props.children}
         </AuthContext.Provider>
     )

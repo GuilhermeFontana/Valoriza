@@ -30,9 +30,10 @@ type TCompliment = {
 type UserItemProps = {
     currentUser: TUserType,
     setUserEdit: (userId: number) => void
+    removeUser: (user_id: number) => void
 }
 
-export function UserItem({currentUser, setUserEdit}: UserItemProps) {
+export function UserItem({currentUser, setUserEdit, removeUser}: UserItemProps) {
     const { user } = useAuth();
     const { getCompliments, createCompliment, removeCompliment } = useApi();
     const [ compliments, setCompliments ] = useState<TCompliment[]>([])
@@ -114,11 +115,16 @@ export function UserItem({currentUser, setUserEdit}: UserItemProps) {
                                 }}
                             />
                         </button>
+                        {user.id !== currentUser.id &&
                         <button
                             type="button"
                         >
-                            <img src={removeUserImg} alt="Remover usuário"/>
-                        </button>
+                            <img 
+                                src={removeUserImg} 
+                                alt="Remover usuário"
+                                onClick={() => removeUser(currentUser.id)}
+                            />
+                        </button>}
                     </>}
                 </div>
             </div>
