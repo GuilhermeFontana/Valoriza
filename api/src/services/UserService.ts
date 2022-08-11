@@ -6,6 +6,7 @@ import { AuthenticateService } from "./AuthenticateService";
 interface IUserInsert {
     nome: string;
     senha: string;
+    confSenha: string;
     email: string;
     admin?: boolean;
 }
@@ -18,10 +19,12 @@ interface IUserFindUpdate {
 const repository = new UserRepository();
 
 class UserService {
-    async criar({ nome, senha, email, admin }: IUserInsert) {        
-        if (!nome || !senha || !email)
+    async criar({ nome, senha, confSenha, email, admin }: IUserInsert) {        
+        if (!nome || !senha || !confSenha || !email)
             throw new Error("Nome, email ou senha não preenchido");
         
+        if (senha !== confSenha)
+            throw new Error("As senhas não correspondem")
 
         if ((await repository.buscarUm({ email })))
             throw new Error("Este email já está cadastrado");
@@ -60,7 +63,8 @@ class UserService {
         if (!id)
             throw new Error("ID não informado");
 
-        if (email && (await repository.buscarUm({ email })).id !== id) 
+        const user = await repository.buscarUm({ email });
+        if (email && user && Number(user.id) !== id) 
             throw new Error("Este email já esta sendo usado por outro usuário");
 
         const _nome = nome ? toPascaCase(nome) : nome;

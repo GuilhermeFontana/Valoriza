@@ -5,9 +5,9 @@ const service = new UserService();
 
 class UserController {
     async criar(req: Request, res: Response) {
-        const { nome, senha, email, admin } = req.body;
+        const { nome, senha, confSenha, email, admin } = req.body;
         
-        res.json(await service.criar({ nome, senha, email, admin }));
+        res.json(await service.criar({ nome, senha, confSenha, email, admin }));
     }
 
     async buscar(req: Request, res: Response) {
