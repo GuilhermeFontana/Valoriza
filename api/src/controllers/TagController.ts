@@ -22,6 +22,12 @@ class TagController {
     
         res.json(await service.editar(Number(ID), { nome }));
     }
+
+    async remover(req: Request, res: Response) {
+        const { ID } = req.params;
+        
+        res.json(await service.remover(Number(ID)));
+    }
 }
 
 export { TagController }

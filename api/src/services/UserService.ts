@@ -85,6 +85,13 @@ class UserService {
         if (await repository.remover(id) === 0)
             throw new Error("Usuário não encontrado");
     }
+
+    async buscarUsuariosComEtiqueta(etiqueta_id: number) {
+        if (!etiqueta_id)
+            throw new Error("Etiqueta não informada");
+
+        return await repository.buscarUsuariosComEtiqueta(etiqueta_id);
+    }
 }
 
 export { UserService }

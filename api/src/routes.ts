@@ -35,6 +35,7 @@ router.delete("/users/remove/:ID", ensureAuthenticated, ensureAdmin, userControl
 router.post("/tags/create", ensureAuthenticated, ensureAdmin, tagController.criar);
 router.post("/tags/search", ensureAuthenticated, tagController.buscar);
 router.put("/tags/update/:ID", ensureAuthenticated, ensureAdmin, tagController.editar);
+router.delete("/tags/remove/:ID", ensureAuthenticated, ensureAdmin, tagController.remover);
 
 /* Rotas de Elogio */
 router.post("/compliment/send", ensureAuthenticated, complimentController.criar);

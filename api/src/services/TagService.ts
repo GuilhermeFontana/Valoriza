@@ -1,4 +1,5 @@
 import { TagRepository } from "../repositories/TagRepository";
+import { UserService } from "./UserService";
 import toPascaCase from "../utils/toPascalCase";
 
 interface ITagInsert {
@@ -11,6 +12,7 @@ interface ITagFIndUPdate {
 
 
 const repository = new TagRepository();
+const userService = new UserService();
 
 class TagService {
     async criar({ nome }: ITagInsert) {
@@ -46,6 +48,17 @@ class TagService {
             throw new Error("Nenhuma etiqueta encontrada")
 
         return etiqueta;
+    }
+
+    async remover(id: number) {
+        if (!id)
+            throw new Error("ID não informado");
+
+        if ((await userService.buscarUsuariosComEtiqueta(id)).length > 0)
+            throw new Error("Não é possível excluir etiquetas em uso")
+
+        if (await repository.remover(id) === 0)
+            throw new Error("Usuário não encontrado");
     }
 }
 

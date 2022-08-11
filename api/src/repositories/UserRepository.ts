@@ -111,6 +111,18 @@ class UserRepository {
 
         return rowCount;
     }
+
+    async buscarUsuariosComEtiqueta(etiqueta_id) {
+        const sql = 
+`SELECT DISTINCT u.id, u.nome, u.email, u.admin 
+    FROM valoriza.usuario u 
+JOIN valoriza.elogio e 
+    ON e.destinatario_id = u.id 
+WHERE e.etiqueta_id = ${etiqueta_id}`;
+
+        return (await executarSQL(sql)).rows;
+    }
+
 }
 
 export { UserRepository }
