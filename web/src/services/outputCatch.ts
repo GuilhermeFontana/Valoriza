@@ -1,4 +1,4 @@
-import toast from "./toast"
+import { executeToast, endPromiseToast } from "./toast"
 
 function execute (
     response: {
@@ -8,6 +8,7 @@ function execute (
         status: number
     },
     defaultMessage?: string,
+    loadingId?: number | string,
     toastPosition?: "right" | "left" | "none"
 ) {
 
@@ -22,7 +23,13 @@ function execute (
         return;
     }
 
-    toast("error", message, {position: toastPosition})
+    if (!loadingId){
+        executeToast(message, {type: "error", position: toastPosition});
+    }
+    else{
+        endPromiseToast(loadingId, message, { type: "error", position: toastPosition });
+    }
+    
 }
 
 export default execute;    

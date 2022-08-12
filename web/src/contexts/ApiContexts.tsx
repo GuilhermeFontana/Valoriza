@@ -1,7 +1,7 @@
 import { createContext, ReactNode } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import api from '../services/api'
-import toast from "../services/toast"
+import { startPromiseToast, endPromiseToast } from "../services//toast"
 import outputCatch from "../services/outputCatch"
 
 type ApiContextProviderProps = {
@@ -60,6 +60,8 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
     }
 
     async function createUser(name: string, email: string, password: string, confPassword: string, admin: boolean): Promise<userType> {
+        const toastId = startPromiseToast("Cadastrando usuário")
+
         return await api.post("/users/create", 
             {
                 nome: name,
@@ -75,15 +77,16 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
             }
         )
         .then(res => {
-            toast("success", "Usuário cadastrado")
+            endPromiseToast(toastId, "Usuário cadastrado", { type: "success" })
             return res.data
         })
         .catch(res => {
-            outputCatch(res.response, "Ocorreu um erro ao cadastrar o usuário");
+            outputCatch(res.response, "Ocorreu um erro ao cadastrar o usuário", toastId);
         })
     }
 
     async function updateUser(userId: number, name: string, email: string, admin: boolean): Promise<userType> {
+        const toastId = startPromiseToast("Atualizando usuário")
         
         return await api.put(`/users/update/${userId}`,
             {
@@ -98,18 +101,17 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
             }
         )
         .then(res => {
-            toast("success", "Usuário atualizado")
+            endPromiseToast(toastId, "Usuário atualizado", { type: "success" });
             return res.data
         })
         .catch(res => {
-            outputCatch(res.response, "Ocorreu um erro ao atualizar o usuário");
+            outputCatch(res.response, "Ocorreu um erro ao atualizar o usuário", toastId);
             return undefined;
         })
     }
 
     async function removeUser(userId: number): Promise<boolean> {
-        if (!user)
-            return false;
+        const toastId = startPromiseToast("Apagando usuário")
 
         return await api.delete(`/users/remove/${userId}`,  
         {
@@ -118,11 +120,11 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
             }            
         })
         .then(() => {
-            toast("success", "Usuário removido");
+            endPromiseToast(toastId, "Usuário removido", { type: "success" });
             return true
         })
         .catch(res => {                
-            outputCatch(res.response, "Ocorreu um erro ao remover o usuário");
+            outputCatch(res.response, "Ocorreu um erro ao remover o usuário", toastId);
             return false;
         })
     }
@@ -145,6 +147,8 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
     }
 
     async function createTag(nome: string): Promise<tagType> {
+        const toastId = startPromiseToast("Cadastrando etiqueta")
+
         return await api.post("/tags/create", 
             {
                 nome
@@ -154,14 +158,19 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
                 Authorization: user.token
             }
         })
-        .then(res => res.data)
+        .then(res => {
+            endPromiseToast(toastId, "Etiqueta cadastrada", { type: "success" })
+            return res.data
+        })
         .catch(res => {                
-            outputCatch(res.response, "Ocorreu um erro ao criar a etiqueta");
+            outputCatch(res.response, "Ocorreu um erro ao criar a etiqueta", toastId);
             return false;
         })
     }
     
     async function removeTag(tagId: number): Promise<boolean> {
+        const toastId = startPromiseToast("Apagando etiqueta")
+
         return await api.delete(`/tags/remove/${tagId}`,  
             {
                 headers: {
@@ -169,11 +178,11 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
                 }            
             })
             .then(() => {
-                    toast("success", "Etiqueta removida");
+                    endPromiseToast(toastId, "Etiqueta removida", { type: "success" });
                     return true;
             })
             .catch(res => {                
-                outputCatch(res.response, "Ocorreu um erro ao remover a etiqueta");
+                outputCatch(res.response, "Ocorreu um erro ao remover a etiqueta", toastId);
                 return false;
             })
     }
@@ -182,57 +191,61 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
 
     //#region Compliment
         
-        async function getCompliments(currentUser: userType): Promise<complimentType[]> {
-            return await api.post(`/compliment/received/${currentUser.id}`, null, {
-                headers: {
-                    Authorization: user.token
-                }
-            })
-            .then(res => res.data)
-            .catch(res => {                
-                outputCatch(res.response, "Ocorreu um erro ao buscar os elogios");
-                return false;
-            })
-        }
+    async function getCompliments(currentUser: userType): Promise<complimentType[]> {
+        return await api.post(`/compliment/received/${currentUser.id}`, null, {
+            headers: {
+                Authorization: user.token
+            }
+        })
+        .then(res => res.data)
+        .catch(res => {                
+            outputCatch(res.response, "Ocorreu um erro ao buscar os elogios");
+            return false;
+        })
+    }
 
-        async function createCompliment(destinatario_id: number, etiqueta_id: number, mensagem: string): Promise<complimentType> {
-            return await api.post("/compliment/send", 
-                {
-                    destinatario_id,
-                    etiqueta_id,
-                    mensagem
-                },
-                {
-                headers: {
-                    Authorization: user.token
-                }            
-            })
-            .then(res => {
-                res.data.etiqueta = res.data.etiqueta_id;
+    async function createCompliment(destinatario_id: number, etiqueta_id: number, mensagem: string): Promise<complimentType> {
+        const toastId = startPromiseToast("Cadastrando usuário", "right")
 
-                return res.data;
-            })
-            .catch(res => {                
-                outputCatch(res.response, "Ocorreu um erro ao elogia-lo");
-                return false;
-            })
-        }
-
-        async function removeCompliment(compliment_id: number): Promise<boolean> {
-            return await api.delete(`/compliment/remove/${compliment_id}`,  
+        return await api.post("/compliment/send", 
             {
-                headers: {
-                    Authorization: user.token
-                }            
-            })
-            .then(() => {
-                toast("success", "Elogio removido");
-                return true;
-            })
-            .catch(res => {                
-                outputCatch(res.response, "Ocorreu um erro ao remover o elogio");
-                return false;
-            })
+                destinatario_id,
+                etiqueta_id,
+                mensagem
+            },
+            {
+            headers: {
+                Authorization: user.token
+            }            
+        })
+        .then(res => {
+            endPromiseToast(toastId, "Elogio enviado", { type: "success", position: "right" })
+            res.data.etiqueta = res.data.etiqueta_id;
+            return res.data;
+        })
+        .catch(res => {                
+            outputCatch(res.response, "Ocorreu um erro ao elogia-lo", toastId, "right");
+            return false;
+        })
+    }
+
+    async function removeCompliment(compliment_id: number): Promise<boolean> {
+        const toastId = startPromiseToast("Cadastrando usuário", "right")
+
+        return await api.delete(`/compliment/remove/${compliment_id}`,  
+        {
+            headers: {
+                Authorization: user.token
+            }            
+        })
+        .then(() => {
+            endPromiseToast(toastId, "Elogio removido", { type: "success", position: "right" });
+            return true;
+        })
+        .catch(res => {
+            outputCatch(res.response, "Ocorreu um erro ao remover o elogio", toastId, "right");
+            return false;
+        })
         }
 
     //#endregion

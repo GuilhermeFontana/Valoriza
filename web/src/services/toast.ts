@@ -1,12 +1,13 @@
 import { toast } from 'react-toastify';
 
 type TConfigs = {
-    position?: "right" | "left";
+    type: "info" | "success" | "warning" | "error"
+    position?: "right" | "left"
 }
 
-function execute(type: string, text: string, configs?: TConfigs){
-
-    if (type === "info")
+function executeToast(text: string, configs: TConfigs){
+    
+    if (configs.type === "info")
         toast.success(text, {
             position: configs?.position === "right" ? "bottom-right" : "bottom-left",
             autoClose: 4000,
@@ -15,7 +16,7 @@ function execute(type: string, text: string, configs?: TConfigs){
             draggable: true,
         });
 
-    if (type === "success")
+    if (configs.type === "success")
         toast.success(text, {
             position: configs?.position === "right" ? "bottom-right" : "bottom-left",
             autoClose: 4000,
@@ -24,7 +25,7 @@ function execute(type: string, text: string, configs?: TConfigs){
             draggable: true,
         });
     
-    if (type === "warning")
+    if (configs.type === "warning")
         toast.warning(text, {
             position: configs?.position === "right" ? "bottom-right" : "bottom-left",
             autoClose: 4000,
@@ -33,7 +34,7 @@ function execute(type: string, text: string, configs?: TConfigs){
             draggable: true,
     });
 
-    if (type === "error")
+    if (configs.type === "error")
         toast.error(text, {
             position: configs?.position === "right" ? "bottom-right" : "bottom-left",
             autoClose: 4000,
@@ -43,4 +44,26 @@ function execute(type: string, text: string, configs?: TConfigs){
         });
 }
 
-export default execute;
+function startPromiseToast(text: string, position?: "right" | "left") {
+    return toast.loading(text, { position: position === "right" ? "bottom-right" : "bottom-left" });
+}
+
+function endPromiseToast(id: number | string, text: string, configs: TConfigs) {
+    toast.update(id, { 
+        render: text, 
+        type: configs.type, 
+        isLoading: false, 
+        position: configs?.position === "right" ? "bottom-right" : "bottom-left",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+    });
+
+}
+
+export {
+    executeToast,
+    startPromiseToast,
+    endPromiseToast
+};

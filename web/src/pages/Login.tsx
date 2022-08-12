@@ -28,7 +28,7 @@ export function Login(){
             history.push("/home");
         })
         .catch(res => {
-            outputCatch( res.response.data, "Ocorreu um erro ao tentar logar você", "right")
+            outputCatch( res.response.data, "Ocorreu um erro ao tentar logar você", "", "right")
             setEnableBtn(true);
         });
 
