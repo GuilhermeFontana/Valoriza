@@ -7,6 +7,7 @@ import '../styles/home.scss'
 import { TagsModifyForm } from "../components/TagsModifyForm";
 import { UserModifyForm } from "../components/UserModifyForm";
 import { useApi } from "../hooks/useApi";
+import { ToastContainer } from 'react-toastify';
 
 type userType = {
     id: number,
@@ -116,6 +117,7 @@ export function Home() {
                     </div>
                 </main>
             </div>
+            <ToastContainer />
         </div>
     )
 }

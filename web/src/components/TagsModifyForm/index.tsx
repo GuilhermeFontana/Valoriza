@@ -55,9 +55,8 @@ export function TagsModifyForm(props: TagsModifyFormProps) {
 
     async function handleRemoveTag() {
         if (selectedTags && selectedTags.length > 0) {
-            await removeTag(Number(selectedTags[0].value));
-
-            setTags(tags.filter(tag => tag.value !== selectedTags[0].value));
+            if (await removeTag(Number(selectedTags[0].value)))
+                setTags(tags.filter(tag => tag.value !== selectedTags[0].value));
         }
 
     }

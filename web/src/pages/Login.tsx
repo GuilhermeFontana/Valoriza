@@ -1,7 +1,9 @@
 import { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify'
 import { useAuth } from "../hooks/useAuth"
 import outputCatch from "../services/outputCatch";
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/login.scss'
 
 
@@ -24,6 +26,10 @@ export function Login(){
         })
         .then(() => {
             history.push("/home");
+        })
+        .catch(res => {
+            outputCatch( res.response.data, "Ocorreu um erro ao tentar logar você", "right")
+            setEnableBtn(true);
         });
 
     }
@@ -50,6 +56,7 @@ export function Login(){
                     disabled={!enableBtn}
                 >Enviar</button>
             </form>
+            <ToastContainer />
         </div>
     )
 }

@@ -67,9 +67,8 @@ export function UserItem({currentUser, setUserEdit, removeUser}: UserItemProps) 
     }
 
     async function handleRemoveCompliment(compliment_id: number) {
-        await removeCompliment(compliment_id);             
-        
-        setCompliments(compliments.filter(x => x.id !== compliment_id));
+        if (await removeCompliment(compliment_id))
+            setCompliments(compliments.filter(x => x.id !== compliment_id));  
     }
 
 

@@ -1,7 +1,8 @@
 import { createContext, ReactNode } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import api from '../services/api'
-
+import toast from "../services/toast"
+import outputCatch from "../services/outputCatch"
 
 type ApiContextProviderProps = {
     children?: ReactNode
@@ -11,13 +12,13 @@ type ApiContextType = {
     getUsers: () => Promise<userType[]>
     createUser: (name: string, email: string, password: string, confPassword: string, admin: boolean) => Promise<userType>
     updateUser: (userId: number, name: string, email: string, admin: boolean) => Promise<userType>
-    removeUser (userId: number): void
+    removeUser (userId: number): Promise<boolean>
     getTags: () => Promise<tagType[]>
     createTag: (nome: string) => Promise<tagType>
-    removeTag (tagId: number): void
+    removeTag (tagId: number): Promise<boolean>
     getCompliments: (currentUser: userType) => Promise<complimentType[]>
     createCompliment: (destinatario_id: number, etiqueta_id: number, mensagem: string) => Promise<complimentType>
-    removeCompliment(compliment_id: number): void 
+    removeCompliment(compliment_id: number): Promise<boolean>
 }
 
 type userType = {
@@ -51,7 +52,11 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
                 Authorization: user.token
             }
         })
-        .then(res => res.data);
+        .then(res => res.data)
+        .catch(res => {                
+            outputCatch(res.response, "Ocorreu um erro ao buscar o usuario", "none");
+            return undefined;
+        });
     }
 
     async function createUser(name: string, email: string, password: string, confPassword: string, admin: boolean): Promise<userType> {
@@ -69,7 +74,13 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
                 }
             }
         )
-        .then(res => res.data);
+        .then(res => {
+            toast("success", "Usuário cadastrado")
+            return res.data
+        })
+        .catch(res => {
+            outputCatch(res.response, "Ocorreu um erro ao cadastrar o usuário");
+        })
     }
 
     async function updateUser(userId: number, name: string, email: string, admin: boolean): Promise<userType> {
@@ -86,21 +97,34 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
                 } 
             }
         )
-        .then(res => res.data)
-        
+        .then(res => {
+            toast("success", "Usuário atualizado")
+            return res.data
+        })
+        .catch(res => {
+            outputCatch(res.response, "Ocorreu um erro ao atualizar o usuário");
+            return undefined;
+        })
     }
 
-    async function removeUser(userId: number) {
+    async function removeUser(userId: number): Promise<boolean> {
         if (!user)
-            return;
+            return false;
 
-        await api.delete(`/users/remove/${userId}`,  
+        return await api.delete(`/users/remove/${userId}`,  
         {
             headers: {
                 Authorization: user.token
             }            
         })
-
+        .then(() => {
+            toast("success", "Usuário removido");
+            return true
+        })
+        .catch(res => {                
+            outputCatch(res.response, "Ocorreu um erro ao remover o usuário");
+            return false;
+        })
     }
 
     //#endregion
@@ -114,6 +138,10 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
             }
         })
         .then(res => res.data)
+        .catch(res => {                
+            outputCatch(res.response, "Ocorreu um erro ao buscar as etiquetas");
+            return false;
+        })
     }
 
     async function createTag(nome: string): Promise<tagType> {
@@ -127,14 +155,26 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
             }
         })
         .then(res => res.data)
+        .catch(res => {                
+            outputCatch(res.response, "Ocorreu um erro ao criar a etiqueta");
+            return false;
+        })
     }
     
-    async function removeTag(tagId: number) {
-        await api.delete(`/tags/remove/${tagId}`,  
+    async function removeTag(tagId: number): Promise<boolean> {
+        return await api.delete(`/tags/remove/${tagId}`,  
             {
                 headers: {
                     Authorization: user.token
                 }            
+            })
+            .then(() => {
+                    toast("success", "Etiqueta removida");
+                    return true;
+            })
+            .catch(res => {                
+                outputCatch(res.response, "Ocorreu um erro ao remover a etiqueta");
+                return false;
             })
     }
 
@@ -149,6 +189,10 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
                 }
             })
             .then(res => res.data)
+            .catch(res => {                
+                outputCatch(res.response, "Ocorreu um erro ao buscar os elogios");
+                return false;
+            })
         }
 
         async function createCompliment(destinatario_id: number, etiqueta_id: number, mensagem: string): Promise<complimentType> {
@@ -168,14 +212,26 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
 
                 return res.data;
             })
+            .catch(res => {                
+                outputCatch(res.response, "Ocorreu um erro ao elogia-lo");
+                return false;
+            })
         }
 
-        async function removeCompliment(compliment_id: number) {
-            await api.delete(`/compliment/remove/${compliment_id}`,  
+        async function removeCompliment(compliment_id: number): Promise<boolean> {
+            return await api.delete(`/compliment/remove/${compliment_id}`,  
             {
                 headers: {
                     Authorization: user.token
                 }            
+            })
+            .then(() => {
+                toast("success", "Elogio removido");
+                return true;
+            })
+            .catch(res => {                
+                outputCatch(res.response, "Ocorreu um erro ao remover o elogio");
+                return false;
             })
         }
 
