@@ -9,14 +9,14 @@ import { Login } from './pages/Login';
 function App() {
   return (
     <BrowserRouter forceRefresh>
-      <AuthContextProvider>
-          <Switch>
+        <Switch>
+          <AuthContextProvider>
             <Route path="/login" component={Login} />
             <ApiContextProvider>
               <Route path="/home" component={Home} />
             </ApiContextProvider>
-          </Switch>
-      </AuthContextProvider>
+          </AuthContextProvider>
+        </Switch>
     </BrowserRouter>
   )
 }
