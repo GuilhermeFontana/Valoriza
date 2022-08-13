@@ -5,8 +5,7 @@ type TConfigs = {
     position?: "right" | "left"
 }
 
-function executeToast(text: string, configs: TConfigs){
-    
+function executeToast(text: string, configs: TConfigs){    
     if (configs.type === "info")
         toast.success(text, {
             position: configs?.position === "right" ? "bottom-right" : "bottom-left",
@@ -14,6 +13,7 @@ function executeToast(text: string, configs: TConfigs){
             hideProgressBar: false,
             closeOnClick: true,
             draggable: true,
+            toastId: "toast-info"
         });
 
     if (configs.type === "success")
@@ -23,6 +23,7 @@ function executeToast(text: string, configs: TConfigs){
             hideProgressBar: false,
             closeOnClick: true,
             draggable: true,
+            toastId: "toast-success"
         });
     
     if (configs.type === "warning")
@@ -32,6 +33,7 @@ function executeToast(text: string, configs: TConfigs){
             hideProgressBar: false,
             closeOnClick: true,
             draggable: true,
+            toastId: "toast-warning"
     });
 
     if (configs.type === "error")
@@ -41,6 +43,7 @@ function executeToast(text: string, configs: TConfigs){
             hideProgressBar: false,
             closeOnClick: true,
             draggable: true,
+            toastId: "toast-error"
         });
 }
 

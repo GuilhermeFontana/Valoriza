@@ -53,8 +53,13 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
             }
         })
         .then(res => res.data)
-        .catch(res => {                
-            outputCatch(res.response, "Ocorreu um erro ao buscar o usuario", "none");
+        .catch(res => {
+            outputCatch(
+                res.response, 
+                "Ocorreu um erro ao buscar o usuario", 
+                "", 
+                res.response.status === 401 ? "none" : "right"
+            );
             return undefined;
         });
     }

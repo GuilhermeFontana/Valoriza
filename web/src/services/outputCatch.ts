@@ -9,8 +9,10 @@ function execute (
     },
     defaultMessage?: string,
     loadingId?: number | string,
-    toastPosition?: "right" | "left" | "none"
+    toastPosition?: "right" | "left" | "log" | "none"
 ) {
+    if (toastPosition === "none")
+        return;
 
     const message = response.status === 401 
         ? "Você não tem autorização para executar esta ação. Contate um administrador"
@@ -18,7 +20,7 @@ function execute (
             ? response.data.erro
             : defaultMessage  || "Ocorreu um erro inesperado. Tente novamente mais tarde"
 
-    if (toastPosition === "none"){
+    if (toastPosition === "log"){
         console.log(message);
         return;
     }
