@@ -1,4 +1,4 @@
-import { executarSQL, getProximoId } from "../database/pg";
+import { executarSQL, getProximoId } from "../resources/database/pg";
 import limparObjeto from "../utils/limparObjeto";
 
 interface ITagInsert {

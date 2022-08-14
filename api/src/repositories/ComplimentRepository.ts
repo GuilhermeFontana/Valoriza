@@ -1,4 +1,4 @@
-import { executarSQL, getProximoId } from "../database/pg";
+import { executarSQL, getProximoId } from "../resources/database/pg";
 import { TagService } from "../services/TagService";
 import { UserService } from "../services/UserService";
 import limparObjeto from "../utils/limparObjeto";
