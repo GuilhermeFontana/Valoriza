@@ -39,8 +39,7 @@ class UserService {
         const authService = new AuthenticateService();
 
         return {
-            ...user,
-            token: (await (authService.executar({ email, senha }))).token
+            ...user
         }
     }
 
@@ -57,6 +56,14 @@ class UserService {
             throw new Error("ID não informado");
 
         return await repository.buscarPorID(id);
+    }
+
+    async buscarUm({ nome, email, admin }: IUserFindUpdate) {
+        return await repository.buscarUm({
+            nome,
+            email,
+            admin
+        })
     }
 
     async editar(id: number, { nome, email, admin }: IUserFindUpdate) {

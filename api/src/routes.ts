@@ -20,7 +20,8 @@ const complimentController = new ComplimentController();
 
 
 /* Autenticação */
-router.post("/login", authenticateController.handle)
+router.post("/login", authenticateController.login)
+router.post("/forgot-password", authenticateController.forgotPassword)
 
 /* Rotas de Usuário */
 router.post("/users/create", userController.criar);
