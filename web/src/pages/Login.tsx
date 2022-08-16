@@ -4,14 +4,15 @@ import { ToastContainer } from 'react-toastify'
 import { useAuth } from "../hooks/useAuth"
 import outputCatch from "../services/outputCatch";
 import 'react-toastify/dist/ReactToastify.css';
+
 import '../styles/login.scss'
 
 
 export function Login(){
     const history = useHistory();
-    const { signInWithEmail } = useAuth();
-    const [ email, setEmail ] = useState("admin@email.com");
-    const [ senha, setSenha ] = useState("admin");
+    const { signInWithEmail, forgotPassword } = useAuth();
+    const [ email, setEmail ] = useState("erro@email.com");
+    const [ senha, setSenha ] = useState("erro");
     const [ enableBtn, setEnableBtn ] = useState(true);
 
 
@@ -31,30 +32,32 @@ export function Login(){
             outputCatch( res.response, "Ocorreu um erro ao tentar logar você", "", "right")
             setEnableBtn(true);
         });
-
     }
 
     return (
-        <div className="login-form">
+        <div className="login">
             <form onSubmit={handleSubmit}>
                 <h1>Login</h1>
-                <input 
-                    type="email" 
-                    placeholder='Digite seu email' 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    autoFocus
-                />
-                <input 
-                    type="password" 
-                    placeholder='Digite sua senha'
-                    value={senha}
-                    onChange={(e) => setSenha(e.target.value)}
-                />
-                <button 
-                    type="submit"
-                    disabled={!enableBtn}
-                >Enviar</button>
+                <div className="login-form">
+                    <input 
+                        type="email" 
+                        placeholder='Digite seu email' 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        autoFocus
+                    />
+                    <input 
+                        type="password" 
+                        placeholder='Digite sua senha'
+                        value={senha}
+                        onChange={(e) => setSenha(e.target.value)}
+                    />
+                    <span onClick={() => forgotPassword(email)}>Esqueceu a senha de novo, né?</span>
+                    <button 
+                        type="submit"
+                        disabled={!enableBtn}
+                    >Enviar</button>
+                </div>
             </form>
             <ToastContainer />
         </div>

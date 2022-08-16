@@ -29,7 +29,7 @@ function execute (
         executeToast(message, {type: "error", position: toastPosition});
     }
     else{
-        endPromiseToast(loadingId, message, { type: "error", position: toastPosition });
+        endPromiseToast(loadingId, `${message}...`, { type: "error", position: toastPosition });
     }
     
 }
