@@ -8,6 +8,9 @@ async function executarSQL(sql: string) {
         return { rows, rowCount }
     }
     catch (err) {
+        if (err.code === "ECONNREFUSED")
+            throw new Error("Não foi possível se conectar com o banco de dados");
+
         throw new Error(err.message);
     }
 }
@@ -20,6 +23,9 @@ async function getProximoId(tabela: string) {
         return parseInt(rows[0].value);
     }
     catch (err) {
+        if (err.code === "ECONNREFUSED")
+            throw new Error("Não foi possível se conectar com o banco de dados");
+            
         throw new Error(err.message);
     }
     
