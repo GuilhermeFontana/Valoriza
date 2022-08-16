@@ -70,6 +70,7 @@
                 font-weight: 700;
 
                 cursor: pointer;
+                transition: background-color 0.35s;
             }
 
             button:hover {
@@ -87,6 +88,7 @@
 
             span:hover {
                 color: #6145aa;
+                transition: color 0.35s;
             }
         }
     }

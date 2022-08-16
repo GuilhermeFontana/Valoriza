@@ -50,6 +50,7 @@
             font-weight: 700;
             
             cursor: pointer;
+            transition: background-color 0.35s;
         }
 
         button:hover {
@@ -63,6 +64,7 @@
             text-decoration: underline;
 
             cursor: pointer;
+            transition: color 0.35s;
         }
         
         span:hover {
