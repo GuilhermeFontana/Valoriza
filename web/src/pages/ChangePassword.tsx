@@ -15,8 +15,8 @@ export function ChangePassword(){
     const [ enableBtn, setEnableBtn ] = useState(true);
 
     useEffect(() => {
-       if (!history.location.search || !history.location.search.startsWith("?token="))   
-       history.push("/login")
+        if (!history.location.search || !history.location.search.startsWith("?token="))   
+            history.push("/login")
        
         // eslint-disable-next-line
     }, [])
