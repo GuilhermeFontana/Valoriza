@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +14,12 @@ export function ChangePassword(){
     const [ confPassword, setConfPassword ] = useState("");
     const [ enableBtn, setEnableBtn ] = useState(true);
 
-
+    useEffect(() => {
+       if (!history.location.search || !history.location.search.startsWith("?token="))   
+       history.push("/login")
+       
+        // eslint-disable-next-line
+    }, [])
     
     async function handleSubmit(event: FormEvent) {
         event.preventDefault();
