@@ -14,6 +14,7 @@ interface IUserFindUpdate {
     nome?: string;
     email?: string;
     admin?: boolean;
+    senha?: string;
 }
 
 const repository = new UserRepository();
@@ -58,28 +59,33 @@ class UserService {
         return await repository.buscarPorID(id);
     }
 
-    async buscarUm({ nome, email, admin }: IUserFindUpdate) {
+    async buscarUm({ nome, email, admin }: IUserFindUpdate, buscarSenha: boolean = false) {
         return await repository.buscarUm({
             nome,
             email,
             admin
-        })
+        }, buscarSenha)
     }
 
-    async editar(id: number, { nome, email, admin }: IUserFindUpdate) {
+    async editar(id: number, { nome, email, admin, senha }: IUserFindUpdate) {
         if (!id)
             throw new Error("ID não informado");
 
-        const user = await repository.buscarUm({ email });
-        if (email && user && Number(user.id) !== id) 
-            throw new Error("Este email já esta sendo usado por outro usuário");
+        if (email) {
+            const user = await repository.buscarUm({ email });
+            
+            if ( user && Number(user.id) !== id) 
+                throw new Error("Este email já esta sendo usado por outro usuário");
+        }
 
         const _nome = nome ? toPascaCase(nome) : nome;
         const _email = email ? email.toLocaleLowerCase() : email;
+        const _senha = senha ? await hash(senha, Number(process.env.SALT)) : senha;
 
         const usuario = await repository.editar(id, {
             nome: _nome,
             email: _email,
+            senha: _senha,
             admin
         });
 
