@@ -5,6 +5,7 @@ import { AuthContextProvider } from './contexts/AuthContexts';
 
 import { Home } from './pages/Home'
 import { Login } from './pages/Login';
+import { ChangePassword } from './pages/ChangePassword';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Switch>
           <AuthContextProvider>
             <Route path="/login" component={Login} />
+            <Route path="/forgot-password" component={ChangePassword} />
             <ApiContextProvider>
               <Route path="/home" component={Home} />
             </ApiContextProvider>

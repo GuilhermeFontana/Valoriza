@@ -113,14 +113,14 @@ export function UserModifyForm(props: UserModifyFormProps) {
                 {!props.userId && <>
                     <input 
                         type="password" 
-                        placeholder="Password"
+                        placeholder="Senha"
                         value={password}
                         required
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <input 
                         type="password" 
-                        placeholder="Confirmação da Password"
+                        placeholder="Confirmação da Senha"
                         value={confPassword}
                         required
                         onChange={(e) => setConfPassword(e.target.value)}

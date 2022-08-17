@@ -44,6 +44,7 @@ export function Login(){
                         placeholder='Digite seu email' 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required
                         autoFocus
                     />
                     <input 
@@ -51,6 +52,7 @@ export function Login(){
                         placeholder='Digite sua senha'
                         value={senha}
                         onChange={(e) => setSenha(e.target.value)}
+                        required
                     />
                     <span onClick={() => forgotPassword(email)}>Esqueceu a senha de novo, né?</span>
                     <button 

@@ -25,6 +25,7 @@ type AuthContextType = {
     updateLoggedUser: (newUser: {nome: string, email: string, admin: boolean}) => void
     signInWithEmail: (auth: authType) => Promise<void>
     forgotPassword: (email: string) => Promise<void>
+    changePassword: (password: string, confPassword: string) => Promise<boolean>
 }
 export const AuthContext = createContext({} as AuthContextType)
 
@@ -42,7 +43,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       async function loadUser() {
         const user: userType = getCookies("user");
         
-        if (!user.token && history.location.pathname !== "/login")
+        if (!user.token && history.location.pathname === "/home")
           history.push("/login");
       
         setUser(user);  
@@ -102,8 +103,30 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       })
     }
   
+    async function changePassword(password: string, confPassword: string): Promise<boolean> {
+      const toastId = startPromiseToast("Alterando senha")
+
+      return await api.put(`/change-password${history.location.search}`, {
+          senha: password,
+          confSenha: confPassword
+        },
+        {
+          headers: {
+            Authorization: user.token
+        }
+      })
+      .then(() => {
+        endPromiseToast(toastId, "Senha alterada com sucesso", { type: "success", position: "right" });
+        return true;
+      })
+      .catch(res => {                
+          outputCatch(res.response, "Ocorreu um erro ao redefinir senha", toastId);
+          return false;
+      })
+    }
+
     return (
-        <AuthContext.Provider value={{user, updateLoggedUser, signInWithEmail, forgotPassword}}>
+        <AuthContext.Provider value={{user, updateLoggedUser, signInWithEmail, forgotPassword, changePassword}}>
           {props.children}
         </AuthContext.Provider>
     )
