@@ -67,7 +67,7 @@ class AuthenticateService {
             { 
                 token,
                 url: process.env.BASE_URL + process.env.FORGOT_PASSWORD_ROUTE,
-                expiresTime: moment().add(Number(FAST_EXPIRES_MINUTES), "m").format("DD/MM/YYYY HH:mm:ss"), 
+                expiresTime: moment().add(Number(FAST_EXPIRES_MINUTES), "m").format("DD/MM/YYYY HH:mm:ss")
         });
     }
 

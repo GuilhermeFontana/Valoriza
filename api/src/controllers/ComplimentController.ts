@@ -33,10 +33,10 @@ class ComplimentController {
     }
 
     async removerElogio(req: Request, res: Response) {
-        const { id } = req.user;
+        const { id, admin } = req.user;
         const { ID } = req.params;
 
-        res.json(await service.remover({ remetente_id: id, elogio_id: Number(ID) }))
+        res.json(await service.remover({ usuario: { id, admin }, elogio_id: Number(ID) }))
     }
 
 }

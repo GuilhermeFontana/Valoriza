@@ -18,7 +18,10 @@ interface IComplimentFind {
 }
 
 interface IComplimentRemove {
-    remetente_id: number;
+    usuario: {
+        id: number,
+        admin: boolean
+    };
     elogio_id: number;
 }
 
@@ -33,43 +36,54 @@ class ComplimentService {
         if (!remetente_id || !destinatario_id || !etiquetas || etiquetas.length < 1)
             throw new Error("Remetente, destinatário ou etiqueta não preenchido")
 
-        if (remetente_id === destinatario_id) 
+        if (remetente_id === destinatario_id)
             throw new Error("Você não pode se elogiar")
 
-        if (!(await userServiece.buscarPorID(destinatario_id)))
+        const remetente = await userServiece.buscarPorID(destinatario_id);
+        if (!remetente)
+            throw new Error("Remetente não encontrado");
+
+        const destinatario = await userServiece.buscarPorID(destinatario_id);
+        if (!destinatario)
             throw new Error("Destinatario não encontrado");
 
         if ((await etiquetaService.buscarPorIDs(etiquetas)).length  !== etiquetas.length)
             throw new Error("Alguma etiqueta não foi encontrada");
 
         const compliment = await repository.criar({
-            remetente_id, 
-            destinatario_id,  
+            remetente_id,
+            destinatario_id,
             mensagem
         });
-            
-        compliment.etiquetas = await elogiosEtiquetasSevice.criar(compliment.id, etiquetas);
 
-        return compliment;
+        const resCompliment = {
+            id: compliment.id,
+            remetente,
+            destinatario,
+            mensagem,
+            etiquetas: await elogiosEtiquetasSevice.criar(compliment.id, etiquetas)
+        }
+
+        return resCompliment;
     }
 
     async buscar({ remetente_id, destinatario_id, etiqueta_id }: IComplimentFind) {
         if (!destinatario_id && !remetente_id)
             throw new Error("Informe um destinatário ou um remetente")
-        
+
         return await repository.buscar({ remetente_id, destinatario_id, etiqueta_id });
     }
 
-    async remover({remetente_id, elogio_id}: IComplimentRemove) {
-        if (!remetente_id || !elogio_id)
-            throw new Error("Remetente ou id do elogio não preenchido")
-    
+    async remover({usuario, elogio_id}: IComplimentRemove) {
+        if (!usuario || !elogio_id)
+            throw new Error("Usuário ou id do elogio não preenchido")
+
         const elogio = await repository.buscarPorID(elogio_id, false);
         if (!elogio)
             throw new Error("Elogio não encontrado");
 
-        if (remetente_id !== Number(elogio.remetente))
-            throw new Error("Você não pode remover o elogio de outro usuário");
+        if (!usuario.admin && usuario.id !== Number(elogio.remetente))
+            throw new Error("Você não pode remover o elogio de outro usuário, sem ser administrador");
 
         await repository.remover(elogio.id);
     }
