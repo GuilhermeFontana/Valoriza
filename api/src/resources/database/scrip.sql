@@ -27,11 +27,19 @@ CREATE TABLE valoriza.elogio (
 	id numeric NOT NULL,
 	remetente_id numeric NOT NULL,
 	destinatario_id numeric NOT NULL,
-	etiqueta_id numeric NOT NULL,
 	mensagem varchar,
 	dthr_criacao information_schema."time_stamp" NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT pk_elogio PRIMARY KEY (id),
-	CONSTRAINT fk_elogio_destinatario FOREIGN KEY (usuid_destinatario) REFERENCES valoriza.usuario(id),
-	CONSTRAINT fk_elogio_etiqueta FOREIGN KEY (etiqueta_id) REFERENCES valoriza.etiqueta(id),
-	CONSTRAINT fk_elogio_remetente FOREIGN KEY (usuid_remetente) REFERENCES valoriza.usuario(id)
+	CONSTRAINT fk_elogio_destinatario FOREIGN KEY (usuid_destinatario) REFERENCES valoriza.usuario(id) ON DELETE CASCADE,
+	CONSTRAINT fk_elogio_remetente FOREIGN KEY (usuid_remetente) REFERENCES valoriza.usuario(id) ON DELETE CASCADE
+);
+
+CREATE TABLE valoriza.elogios_etiquetas (
+	id serial NOT NULL,
+	etiqueta_id numeric NOT NULL,
+	elogio_id numeric NOT NULL,
+	CONSTRAINT pk_elogios_etiquetas PRIMARY KEY (id),
+	CONSTRAINT uk_elogios_etiquetas UNIQUE (elogio_id,etiqueta_id),
+	CONSTRAINT fk_elogios FOREIGN KEY (elogio_id) REFERENCES valoriza.elogio(id) ON DELETE CASCADE,
+	CONSTRAINT fk_etiquetas FOREIGN KEY (etiqueta_id) REFERENCES valoriza.etiqueta(id) ON DELETE CASCADE
 );

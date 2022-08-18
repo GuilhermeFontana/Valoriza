@@ -45,6 +45,12 @@ class TagRepository {
         return rows[0];
     }
 
+    async buscarPorIDs(id: number[]) {
+        const { rows } = await executarSQL(`SELECT id, nome FROM valoriza.etiqueta e WHERE e.id in (${id.join(", ")})`)
+
+        return rows;
+    }
+
     async buscarUm(etiqueta: ITagFindUpdate) {
         etiqueta = limparObjeto(etiqueta);
 

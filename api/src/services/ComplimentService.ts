@@ -1,11 +1,12 @@
 import { ComplimentRepository } from "../repositories/ComplimentRepository";
 import { UserService } from "./UserService";
 import { TagService } from "./TagService";
+import { ComplimentsTagsService } from "./ComplimentsTagsService";
 
 interface IComplimentInsert {
     remetente_id: number;
     destinatario_id: number;
-    etiqueta_id: number;
+    etiquetas: number[];
     mensagem?: string;
 }
 
@@ -25,10 +26,11 @@ interface IComplimentRemove {
 const repository = new ComplimentRepository();
 const userServiece = new UserService();
 const etiquetaService = new TagService();
+const elogiosEtiquetasSevice = new ComplimentsTagsService
 
 class ComplimentService {
-    async criar({ remetente_id, destinatario_id, etiqueta_id, mensagem }: IComplimentInsert) {
-        if (!remetente_id || !destinatario_id || !etiqueta_id)
+    async criar({ remetente_id, destinatario_id, etiquetas, mensagem }: IComplimentInsert) {
+        if (!remetente_id || !destinatario_id || !etiquetas || etiquetas.length < 1)
             throw new Error("Remetente, destinatário ou etiqueta não preenchido")
 
         if (remetente_id === destinatario_id) 
@@ -37,17 +39,16 @@ class ComplimentService {
         if (!(await userServiece.buscarPorID(destinatario_id)))
             throw new Error("Destinatario não encontrado");
 
-        if (!(await etiquetaService.buscarPorID(etiqueta_id)))
-            throw new Error("Etiqueta não encontrada");
+        if ((await etiquetaService.buscarPorIDs(etiquetas)).length  !== etiquetas.length)
+            throw new Error("Alguma etiqueta não foi encontrada");
 
         const compliment = await repository.criar({
             remetente_id, 
-            destinatario_id, 
-            etiqueta_id, 
+            destinatario_id,  
             mensagem
         });
-
-        compliment.etiqueta_id = await etiquetaService.buscarPorID(compliment.etiqueta_id);
+            
+        compliment.etiquetas = await elogiosEtiquetasSevice.criar(compliment.id, etiquetas);
 
         return compliment;
     }
@@ -70,7 +71,7 @@ class ComplimentService {
         if (remetente_id !== Number(elogio.remetente))
             throw new Error("Você não pode remover o elogio de outro usuário");
 
-        return await repository.remover(elogio.id);
+        await repository.remover(elogio.id);
     }
 }
 

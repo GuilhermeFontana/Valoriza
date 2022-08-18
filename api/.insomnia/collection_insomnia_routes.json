@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2022-07-29T02:04:16.886Z",
-  "__export_source": "insomnia.desktop.app:v2022.4.2",
+  "__export_date": "2022-08-18T01:20:16.757Z",
+  "__export_source": "insomnia.desktop.app:v2022.5.0",
   "resources": [
     {
       "_id": "req_5c8b034753534ddc8cae69cddf5f9bce",
       "parentId": "wrk_c3b8a90ca00c4ffaa667b5b354d28fd0",
-      "modified": 1659059936646,
+      "modified": 1660769211222,
       "created": 1658195480269,
       "url": "{{ _.baseUrl }}/login",
       "name": "Login",
@@ -26,7 +26,7 @@
         }
       ],
       "authentication": {},
-      "metaSortKey": -1658708586687,
+      "metaSortKey": -1659229302512,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -47,9 +47,88 @@
       "_type": "workspace"
     },
     {
+      "_id": "req_a4bf76b4e469467185edbd35859a600a",
+      "parentId": "wrk_c3b8a90ca00c4ffaa667b5b354d28fd0",
+      "modified": 1660684197510,
+      "created": 1659229302462,
+      "url": "{{ _.baseUrl }}/forgot-password",
+      "name": "Esqueci Minha Senha",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"erro@email.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_02132533e76349d1b24747ae570fbd95"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1659229302462,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0067b57141794101a2ca40a90fc17f58",
+      "parentId": "wrk_c3b8a90ca00c4ffaa667b5b354d28fd0",
+      "modified": 1660697768063,
+      "created": 1660681992557,
+      "url": "{{ _.baseUrl }}/change-password",
+      "name": "Redefinir Senha",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"senha\": \"senha\",\n\t\"confSenha\": \"senha\"\n}"
+      },
+      "parameters": [
+        {
+          "id": "pair_6aca574012b24db789322205d95f0f3d",
+          "name": "token",
+          "value": "Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2IiwiaWF0IjoxNjYwNjgyMjY3LCJleHAiOjE2NjQyODIyNjcsInN1YiI6IjYifQ.B2CS4Tr_Ye7I1OCDGTzANIedZF2YBUuEh449rYmt31E",
+          "description": "",
+          "disabled": true
+        },
+        {
+          "id": "pair_e44e41f8a62c4c18bcddbd87f125d6ab",
+          "name": "token",
+          "value": "Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjA2ODQxOTksImV4cCI6MTY2MDY4NDIwMCwic3ViIjoiNiJ9.LRrKbMIDUEEMIlOxDnSXz130Lg0phT_8KfnL9Pb7ElE",
+          "description": "",
+          "disabled": false
+        }
+      ],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_087df2f0cf3f4cdcb00190fb664ad856"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1658708586674.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
       "_id": "req_e766f1b89faf408aa00a617028b253c0",
       "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
-      "modified": 1659060214047,
+      "modified": 1660677872105,
       "created": 1658142389846,
       "url": "{{ _.baseUrl }}/users/create",
       "name": "Criar Usuário",
@@ -57,7 +136,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"nome\": \"apagar\",\n\t\"email\": \"apagar@email.com\",\n\t\"senha\": \"apagar\"\n}"
+        "text": "{\n\t\"nome\": \"aaa\",\n\t\"email\": \"aa@email.com\",\n\t\"senha\": \"aaa\",\n\t\"confSenha\": \"aaa\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -93,7 +172,7 @@
     {
       "_id": "req_617bd2afe67043da899656f0564abd1e",
       "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
-      "modified": 1659060228968,
+      "modified": 1660677938292,
       "created": 1658367493234,
       "url": "{{ _.baseUrl }}/users/search",
       "name": "Buscar Usuário",
@@ -110,7 +189,7 @@
       ],
       "authentication": {
         "type": "bearer",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlQGVtYWlsLmNvbSIsImFkbWluIjpmYWxzZSwiaWF0IjoxNjU5MDU5MzI0LCJleHAiOjE2NTkxNDU3MjQsInN1YiI6IjMifQ.3xVAyQciLstWtRzwH4xeP_NH6s0H9WUNNj1pMG7IWAI"
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE2NjA2Nzc4NzgsImV4cCI6MTY2MDc2NDI3OCwic3ViIjoiMiJ9.2M5tngZCBG1Pp-UCBlLK75AmPwHgmd9AN1NSuiCmwp8"
       },
       "metaSortKey": -1658323763666,
       "isPrivate": false,
@@ -125,9 +204,9 @@
     {
       "_id": "req_634c74914b90480d9a77eb339ffd5eb2",
       "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
-      "modified": 1659060237510,
+      "modified": 1660092184354,
       "created": 1658452077059,
-      "url": "{{ _.baseUrl }}/users/search/2",
+      "url": "{{ _.baseUrl }}/users/search/2?WithPassword=true",
       "name": "Buscar Usuário por ID",
       "description": "",
       "method": "GET",
@@ -136,7 +215,7 @@
       "headers": [],
       "authentication": {
         "type": "bearer",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlQGVtYWlsLmNvbSIsImFkbWluIjpmYWxzZSwiaWF0IjoxNjU5MDU5MzI0LCJleHAiOjE2NTkxNDU3MjQsInN1YiI6IjMifQ.3xVAyQciLstWtRzwH4xeP_NH6s0H9WUNNj1pMG7IWAI"
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzdUBlbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjYwMDU2MDExLCJleHAiOjE2NjAxNDI0MTEsInN1YiI6IjEifQ.f3V9i0JNimyMufM1WmKHvISOrhsuVsehIgsNARWum0w"
       },
       "metaSortKey": -1658307728241.375,
       "isPrivate": false,
@@ -151,7 +230,7 @@
     {
       "_id": "req_646968efe6054e65909aa4065c4294e1",
       "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
-      "modified": 1659059945394,
+      "modified": 1660515614819,
       "created": 1658453011339,
       "url": "{{ _.baseUrl }}/users/update",
       "name": "Editar Usuário",
@@ -186,7 +265,7 @@
     {
       "_id": "req_4ac3c78552ab423ca6e6f7df85a450d6",
       "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
-      "modified": 1659059869926,
+      "modified": 1660225987902,
       "created": 1659059256695,
       "url": "{{ _.baseUrl }}/users/update/4",
       "name": "Editar Outro Usuário",
@@ -247,9 +326,9 @@
     {
       "_id": "req_cdb7aab29e4746b0b8c8872fb67f7e69",
       "parentId": "fld_278965bc430143f89ae7a6d11ad7b7b1",
-      "modified": 1659059886521,
+      "modified": 1660219836006,
       "created": 1659059305329,
-      "url": "{{ _.baseUrl }}/users/remove/4",
+      "url": "{{ _.baseUrl }}/users/remove/5",
       "name": "Remover Outro Usuário",
       "description": "",
       "method": "DELETE",
@@ -258,7 +337,7 @@
       "headers": [],
       "authentication": {
         "type": "bearer",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE2NTkwNTk3MzQsImV4cCI6MTY1OTE0NjEzNCwic3ViIjoiMiJ9.rz8ZLLnWYa9rXLo_nLnu-kqo96GsoG2alntRbCiThQs"
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzdUBlbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjYwMTYxOTc4LCJleHAiOjE2NjAyNDgzNzgsInN1YiI6IjEifQ.hOavFHB50-iAj-KO1t103xQfe3z0mBUpQUkafUfKrjU"
       },
       "metaSortKey": -1657548555332.375,
       "isPrivate": false,
@@ -273,7 +352,7 @@
     {
       "_id": "req_9c932d6efa7443748d5cdc9c34b66968",
       "parentId": "fld_c8e6441783924065bc6ed03a1dd15ebe",
-      "modified": 1659059232134,
+      "modified": 1660783349777,
       "created": 1658174592482,
       "url": "{{ _.baseUrl }}/tags/create",
       "name": "Criar Etiqueta",
@@ -281,7 +360,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"nome\": \"Atencioso\"\n}"
+        "text": "{\n\t\"nome\": \"asasgjagdcvhj\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -293,7 +372,7 @@
       ],
       "authentication": {
         "type": "bearer",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzdUBlbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjU4NjgyNTA3LCJleHAiOjE2NTg3Njg5MDcsInN1YiI6IjEifQ.maTJdS07n-B9KLwARd6Fs-djT9iEiDCRSLlR8mEK8JY"
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzdUBlbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjYwMTYxOTc4LCJleHAiOjE2NjAyNDgzNzgsInN1YiI6IjEifQ.hOavFHB50-iAj-KO1t103xQfe3z0mBUpQUkafUfKrjU"
       },
       "metaSortKey": -1656805417898,
       "isPrivate": false,
@@ -320,15 +399,47 @@
     {
       "_id": "req_25c08703af4441f291d8c37d61addde9",
       "parentId": "fld_c8e6441783924065bc6ed03a1dd15ebe",
-      "modified": 1658708724102,
+      "modified": 1660769122807,
       "created": 1658708681270,
       "url": "{{ _.baseUrl }}/tags/search",
       "name": "Procurar Etiqueta",
       "description": "",
       "method": "POST",
+      "body": { "mimeType": "application/json", "text": "{\n}" },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_b9c426543ae04fb4a094a7b7d13df88d"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "nomeeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE2NTk2MjMyMTUsImV4cCI6MTY1OTcwOTYxNSwic3ViIjoiMiJ9.WybAArwqdnnivzKftjBV0kxuoejT7RTsS-ROUbYOevk"
+      },
+      "metaSortKey": -1656721857151.25,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_9b10bcc8d4be4c12a41a5f1796bf817f",
+      "parentId": "fld_c8e6441783924065bc6ed03a1dd15ebe",
+      "modified": 1660177481780,
+      "created": 1659060833444,
+      "url": "{{ _.baseUrl }}/tags/update/4",
+      "name": "Editar Etiqueta",
+      "description": "",
+      "method": "PUT",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"nome\": \"P\"\n}"
+        "text": "{\n\t\"nome\": \"pasciente\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -340,9 +451,41 @@
       ],
       "authentication": {
         "type": "bearer",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzdUBlbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjU4NjgyNTA3LCJleHAiOjE2NTg3Njg5MDcsInN1YiI6IjEifQ.maTJdS07n-B9KLwARd6Fs-djT9iEiDCRSLlR8mEK8JY"
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE2NTkxNDIxMjIsImV4cCI6MTY1OTIyODUyMiwic3ViIjoiMiJ9.ZreET3QBVGkRRYrT31p-gt1ywEGHTJvm0f_ZGBMm4iw"
       },
-      "metaSortKey": -1656471174911,
+      "metaSortKey": -1656638296404.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_a3137872958e48f6bb318fd28e3acf0a",
+      "parentId": "fld_c8e6441783924065bc6ed03a1dd15ebe",
+      "modified": 1660178700258,
+      "created": 1660178617748,
+      "url": "{{ _.baseUrl }}/tags/remove/7",
+      "name": "Remover Etiqueta",
+      "description": "",
+      "method": "DELETE",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_b9c426543ae04fb4a094a7b7d13df88d"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzdUBlbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjYwMTYxOTc4LCJleHAiOjE2NjAyNDgzNzgsInN1YiI6IjEifQ.hOavFHB50-iAj-KO1t103xQfe3z0mBUpQUkafUfKrjU"
+      },
+      "metaSortKey": -1656471174861,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -355,7 +498,7 @@
     {
       "_id": "req_ae041b2207b24b16834d1006518291af",
       "parentId": "fld_953bf85e32f24605a4d9c55a8026d634",
-      "modified": 1658687512900,
+      "modified": 1660785537383,
       "created": 1658369841292,
       "url": "{{ _.baseUrl }}/compliment/send",
       "name": "Elogiar",
@@ -363,7 +506,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"destinatario_id\": 2, \n\t\"etiqueta_id\": 2, \n\t\"mensagem\": \"outro elogio\"\n}"
+        "text": "{\n\t\"destinatario_id\": 1, \n\t\"etiquetas\": [1, 2], \n\t\"mensagem\": \"você é ótimo ❤\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -375,7 +518,7 @@
       ],
       "authentication": {
         "type": "bearer",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzdUBlbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjU4NjgyNTA3LCJleHAiOjE2NTg3Njg5MDcsInN1YiI6IjEifQ.maTJdS07n-B9KLwARd6Fs-djT9iEiDCRSLlR8mEK8JY",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE2NjA3NjkyMTYsImV4cCI6MTY2MDg1NTYxNiwic3ViIjoiMiJ9.q-N1Q-fDyd1sg96xaUJezv9WAd54jewpgjfWjX53u2E",
         "disabled": false
       },
       "metaSortKey": -1656136931924,
@@ -403,7 +546,7 @@
     {
       "_id": "req_93e30ce4e17c41c49551ce912a63e3fb",
       "parentId": "fld_953bf85e32f24605a4d9c55a8026d634",
-      "modified": 1658687087021,
+      "modified": 1660785549674,
       "created": 1658682547916,
       "url": "{{ _.baseUrl }}/compliment/sended",
       "name": "Meus Enviados",
@@ -420,7 +563,7 @@
       ],
       "authentication": {
         "type": "bearer",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzdUBlbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjU4NjgyNTA3LCJleHAiOjE2NTg3Njg5MDcsInN1YiI6IjEifQ.maTJdS07n-B9KLwARd6Fs-djT9iEiDCRSLlR8mEK8JY",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE2NjA3NjkyMTYsImV4cCI6MTY2MDg1NTYxNiwic3ViIjoiMiJ9.q-N1Q-fDyd1sg96xaUJezv9WAd54jewpgjfWjX53u2E",
         "disabled": false
       },
       "metaSortKey": -1656136931874,
@@ -436,7 +579,7 @@
     {
       "_id": "req_3f1213f581f9405b8118d28441899129",
       "parentId": "fld_953bf85e32f24605a4d9c55a8026d634",
-      "modified": 1658686951204,
+      "modified": 1660785560273,
       "created": 1658682590692,
       "url": "{{ _.baseUrl }}/compliment/received",
       "name": "Meus Recebidos",
@@ -453,10 +596,76 @@
       ],
       "authentication": {
         "type": "bearer",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzdUBlbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjU4NjgyNTA3LCJleHAiOjE2NTg3Njg5MDcsInN1YiI6IjEifQ.maTJdS07n-B9KLwARd6Fs-djT9iEiDCRSLlR8mEK8JY",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE2NjA3NjkyMTYsImV4cCI6MTY2MDg1NTYxNiwic3ViIjoiMiJ9.q-N1Q-fDyd1sg96xaUJezv9WAd54jewpgjfWjX53u2E",
         "disabled": false
       },
       "metaSortKey": -1655802688912,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_dcc0c73ff39b4a62b6dae77c8eb1cea4",
+      "parentId": "fld_953bf85e32f24605a4d9c55a8026d634",
+      "modified": 1660785535016,
+      "created": 1659728022549,
+      "url": "{{ _.baseUrl }}/compliment/received/1",
+      "name": "Recebidos por Usuário",
+      "description": "",
+      "method": "POST",
+      "body": { "mimeType": "application/json", "text": "{\n\t\n}" },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_b9c426543ae04fb4a094a7b7d13df88d"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE2NjA3NjkyMTYsImV4cCI6MTY2MDg1NTYxNiwic3ViIjoiMiJ9.q-N1Q-fDyd1sg96xaUJezv9WAd54jewpgjfWjX53u2E",
+        "disabled": false
+      },
+      "metaSortKey": -1655635567431,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0515f1ca8fa1426299ecdf08d40f361d",
+      "parentId": "fld_953bf85e32f24605a4d9c55a8026d634",
+      "modified": 1660783363704,
+      "created": 1659734630181,
+      "url": "{{ _.baseUrl }}/compliment/remove/7",
+      "name": "Remover Elogio",
+      "description": "",
+      "method": "DELETE",
+      "body": { "mimeType": "application/json", "text": "{\n\t\n}" },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_b9c426543ae04fb4a094a7b7d13df88d"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE2NjA3NjkyMTYsImV4cCI6MTY2MDg1NTYxNiwic3ViIjoiMiJ9.q-N1Q-fDyd1sg96xaUJezv9WAd54jewpgjfWjX53u2E",
+        "disabled": false
+      },
+      "metaSortKey": -1655552006690.5,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,

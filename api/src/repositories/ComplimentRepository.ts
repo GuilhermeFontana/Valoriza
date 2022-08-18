@@ -1,12 +1,11 @@
 import { executarSQL, getProximoId } from "../resources/database/pg";
-import { TagService } from "../services/TagService";
+import { ComplimentsTagsService } from "../services/ComplimentsTagsService";
 import { UserService } from "../services/UserService";
 import limparObjeto from "../utils/limparObjeto";
 
 interface IComplimentInsert {
     remetente_id: number;
     destinatario_id: number;
-    etiqueta_id: number;
     mensagem?: string;
 }
 
@@ -21,7 +20,7 @@ interface ICompliment {
     id: number;
     remetente: any;
     destinatario: any;
-    etiqueta: any;
+    etiquetas: [];
     mensagem?: string;
 }
 
@@ -41,7 +40,8 @@ class ComplimentRepository {
 
         return {
             id: proximoId,
-            ...novoElogio
+            ...novoElogio,
+            etiquetas: []
         }
     }
 
@@ -49,7 +49,7 @@ class ComplimentRepository {
         elogio = limparObjeto(elogio);
 
         const sql = 
-`SELECT id, remetente_id AS remetente, destinatario_id AS destinatario, etiqueta_id as etiqueta, mensagem
+`SELECT id, remetente_id AS remetente, destinatario_id AS destinatario, null as etiquetas, mensagem
     FROM valoriza.elogio
     WHERE 1=1 ${Object.entries(elogio).map(x => {
         if (x[0] === "mensagem")
@@ -63,7 +63,7 @@ class ComplimentRepository {
     
     async buscarPorID(id: number, popularFKs: boolean = true) {
         const sql = 
-`SELECT id, remetente_id AS remetente, destinatario_id AS destinatario, etiqueta_id as etiqueta, mensagem
+`SELECT id, remetente_id AS remetente, destinatario_id AS destinatario, null as etiquetas, mensagem
     FROM valoriza.elogio
     WHERE id = ${id};`;
 
@@ -82,7 +82,7 @@ class ComplimentRepository {
         elogio = limparObjeto(elogio);
 
         const sql = 
-`SELECT id, remetente_id AS remetente, destinatario_id AS destinatario, etiqueta_id as etiqueta, mensagem
+`SELECT id, remetente_id AS remetente, destinatario_id AS destinatario, null as etiquetas, mensagem
     FROM valoriza.elogio
     WHERE 1=1 ${Object.entries(elogio).map(x => {
         if (x[0] === "mensagem")
@@ -106,13 +106,13 @@ WHERE id=${id};`
 
     private async popularFKs(elogios: ICompliment[]) {
         const userServiece = new UserService();
-        const etiquetaService = new TagService();
+        const complimentsTagsService = new ComplimentsTagsService();
 
         return await Promise.all( 
             elogios.map(async (e) => {
                 e.remetente = await userServiece.buscarPorID(e.remetente);
                 e.destinatario = await userServiece.buscarPorID(e.destinatario);
-                e.etiqueta = await etiquetaService.buscarPorID(e.etiqueta);
+                e.etiquetas = await complimentsTagsService.buscarPorElogio(e.id, true);
 
                 return e;
             })

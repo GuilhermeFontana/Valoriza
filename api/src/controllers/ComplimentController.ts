@@ -4,11 +4,11 @@ import { ComplimentService } from "../services/ComplimentService";
 const service = new ComplimentService();
 
 class ComplimentController {
-    async criar(req: Request, res: Response) {
-        const { destinatario_id, etiqueta_id, mensagem } = req.body;
+    async elogiar(req: Request, res: Response) {
+        const { destinatario_id, etiquetas, mensagem } = req.body;
         const { id } = req.user;
 
-        res.json(await service.criar({ remetente_id: id , destinatario_id, etiqueta_id, mensagem }));
+        res.json(await service.criar({ remetente_id: id , destinatario_id, etiquetas, mensagem }));
     }
 
     async buscarMeusRecebidos(req: Request, res: Response) {

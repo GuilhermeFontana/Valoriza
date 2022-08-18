@@ -40,7 +40,7 @@ router.put("/tags/update/:ID", ensureAuthenticated, ensureAdmin, tagController.e
 router.delete("/tags/remove/:ID", ensureAuthenticated, ensureAdmin, tagController.remover);
 
 /* Rotas de Elogio */
-router.post("/compliment/send", ensureAuthenticated, complimentController.criar);
+router.post("/compliment/send", ensureAuthenticated, complimentController.elogiar);
 router.post("/compliment/sended", ensureAuthenticated, complimentController.buscarMeusEviados);
 router.post("/compliment/received", ensureAuthenticated, complimentController.buscarMeusRecebidos);
 router.post("/compliment/received/:ID", ensureAuthenticated, complimentController.buscarRecebidosPorUsuario);

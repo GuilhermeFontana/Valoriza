@@ -36,6 +36,13 @@ class TagService {
         return await repository.buscarPorID(id);
     }
 
+    async buscarPorIDs(id: number[]) {
+        if (!id || id.length < 1)
+            throw new Error("IDs não informados");
+
+        return await repository.buscarPorIDs(id);
+    }
+
     async editar(id: number, { nome }: ITagFIndUPdate) {
         if (!id)
             throw new Error("ID não informado");
