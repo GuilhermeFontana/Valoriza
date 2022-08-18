@@ -17,7 +17,7 @@ type ApiContextType = {
     createTag: (nome: string) => Promise<tagType>
     removeTag (tagId: number): Promise<boolean>
     getCompliments: (currentUser: userType) => Promise<complimentType[]>
-    createCompliment: (destinatario_id: number, etiqueta_id: number, mensagem: string) => Promise<complimentType>
+    createCompliment: (destinatario_id: number, etiquetas: number[], mensagem: string) => Promise<complimentType>
     removeCompliment(compliment_id: number): Promise<boolean>
 }
 
@@ -33,7 +33,8 @@ type tagType = {
 type complimentType = {
     id: number,
     mensagem: string,
-    etiqueta: tagType
+    etiquetas: tagType[],
+    remetente: userType
 }
 
 export const ApiContext = createContext({} as ApiContextType);
@@ -209,13 +210,13 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
         })
     }
 
-    async function createCompliment(destinatario_id: number, etiqueta_id: number, mensagem: string): Promise<complimentType> {
+    async function createCompliment(destinatario_id: number, etiquetas: number[], mensagem: string): Promise<complimentType> {
         const toastId = startPromiseToast("Cadastrando usuário", "right")
 
         return await api.post("/compliment/send", 
             {
                 destinatario_id,
-                etiqueta_id,
+                etiquetas,
                 mensagem
             },
             {

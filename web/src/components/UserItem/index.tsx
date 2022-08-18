@@ -21,10 +21,11 @@ type TUserType = {
 type TCompliment = {
     id: number,
     mensagem: string,
-    etiqueta: {
+    remetente: TUserType,
+    etiquetas: {
         id: number,
         nome: string
-    }
+    }[]
 }
 
 type UserItemProps = {
@@ -57,8 +58,8 @@ export function UserItem({currentUser, setUserEdit, removeUser}: UserItemProps) 
     }, [complimentVisible])
 
 
-    async function handleSendCompliment(destinatario_id: number, etiqueta_id: number, mensagem: string) {
-        const newCompliment = await createCompliment(destinatario_id, etiqueta_id, mensagem);
+    async function handleSendCompliment(destinatario_id: number, etiquetas: number[], mensagem: string) {
+        const newCompliment = await createCompliment(destinatario_id, etiquetas, mensagem);
         
         if (newCompliment) {            
             setCompliments([ ...compliments, newCompliment]);

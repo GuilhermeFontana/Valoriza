@@ -11,12 +11,17 @@ type TComplimentForm = {
     compliment?: {
         id: number,
         mensagem: string,
-        etiqueta: {
+        remetente: {
+            id: number,
+            nome: string,
+            email: string
+        }
+        etiquetas: {
             id: number,
             nome: string
-        }
+        }[]
     };
-    handleSendCompliment?: (destinatario_id: number, etiqueta_id: number, mensagem: string) => {}
+    handleSendCompliment?: (destinatario_id: number, etiquetas: number[], mensagem: string) => {}
     handleRemoveCompliment?: (compliment_id: number) => {}
 }
 
@@ -36,7 +41,7 @@ export function ComplimentForm(props: TComplimentForm) {
     const [ tags, setTags ] = useState<TSelect[]>([])
     const [ message, setMessage ] = useState(props.compliment?.mensagem || "");
     const [ complimentsTags, setComplimentsTags ] = useState<TSelect[]>(props.compliment
-        ? [{value: props.compliment.etiqueta.id.toString(), label:props.compliment.etiqueta.nome }]
+        ? props.compliment.etiquetas.map(x => { return { value:x.id.toString(), label: x.nome }})
         : []
     );
 
@@ -74,10 +79,11 @@ export function ComplimentForm(props: TComplimentForm) {
                 )
         }
         else {
+
             if (props.handleSendCompliment)
                 props.handleSendCompliment(
                     props.usuId, 
-                    Number(complimentsTags[0].value), 
+                    complimentsTags.map(x => Number(x.value)), 
                     message
                 )
         }
@@ -116,7 +122,7 @@ export function ComplimentForm(props: TComplimentForm) {
                         value={complimentsTags} 
                     />
                 }
-                {(user.admin || !props.compliment) &&
+                {(user.admin || !props.compliment || props.compliment.remetente.id === user.id) &&
                     <button type='submit'>{btnTetx}</button>
                 }
             </div>
