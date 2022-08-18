@@ -226,7 +226,6 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
         })
         .then(res => {
             endPromiseToast(toastId, "Elogio enviado", { type: "success", position: "right" })
-            res.data.etiqueta = res.data.etiqueta_id;
             return res.data;
         })
         .catch(res => {                

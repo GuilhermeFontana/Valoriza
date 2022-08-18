@@ -10,7 +10,7 @@ function executeToast(text: string, configs: TConfigs){
     if (configs.type === "info")
         toast.success(text, {
             position: configs?.position === "right" ? "bottom-right" : "bottom-left",
-            autoClose: configs.time || 4000,
+            autoClose: configs.time ?? 4000,
             hideProgressBar: false,
             closeOnClick: true,
             draggable: true,
@@ -20,7 +20,7 @@ function executeToast(text: string, configs: TConfigs){
     if (configs.type === "success")
         toast.success(text, {
             position: configs?.position === "right" ? "bottom-right" : "bottom-left",
-            autoClose: configs.time || 4000,
+            autoClose: configs.time ?? 4000,
             hideProgressBar: false,
             closeOnClick: true,
             draggable: true,
@@ -30,7 +30,7 @@ function executeToast(text: string, configs: TConfigs){
     if (configs.type === "warning")
         toast.warning(text, {
             position: configs?.position === "right" ? "bottom-right" : "bottom-left",
-            autoClose: configs.time || 4000,
+            autoClose: configs.time ?? 4000,
             hideProgressBar: false,
             closeOnClick: true,
             draggable: true,
@@ -40,7 +40,7 @@ function executeToast(text: string, configs: TConfigs){
     if (configs.type === "error")
         toast.error(text, {
             position: configs?.position === "right" ? "bottom-right" : "bottom-left",
-            autoClose: configs.time || 4000,
+            autoClose: configs.time ?? 4000,
             hideProgressBar: false,
             closeOnClick: true,
             draggable: true,
@@ -58,7 +58,7 @@ function endPromiseToast(id: number | string, text: string, configs: TConfigs) {
         type: configs.type, 
         isLoading: false, 
         position: configs?.position === "right" ? "bottom-right" : "bottom-left",
-        autoClose: configs.time || 4000,
+        autoClose: configs.time ?? 4000,
         hideProgressBar: false,
         closeOnClick: true,
         draggable: true,

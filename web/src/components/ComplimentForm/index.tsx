@@ -122,7 +122,7 @@ export function ComplimentForm(props: TComplimentForm) {
                         value={complimentsTags} 
                     />
                 }
-                {(user.admin || !props.compliment || props.compliment.remetente.id === user.id) &&
+                {(user.admin || !props.compliment || ( props.compliment.remetente && props.compliment.remetente.id === user.id )) &&
                     <button type='submit'>{btnTetx}</button>
                 }
             </div>
