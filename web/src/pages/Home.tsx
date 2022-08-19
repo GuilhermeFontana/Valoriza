@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from 'react-toastify';
+import { executeCustomToast } from "../services/toast";
 import { useAuth } from "../hooks/useAuth";
+import { useApi } from "../hooks/useApi";
 import { UserItem } from "../components/UserItem";
-
-
-import '../styles/home.scss'
 import { TagsModifyForm } from "../components/TagsModifyForm";
 import { UserModifyForm } from "../components/UserModifyForm";
-import { useApi } from "../hooks/useApi";
-import { ToastContainer } from 'react-toastify';
+
+import '../styles/home.scss'
 
 type userType = {
     id: number,
@@ -46,9 +46,28 @@ export function Home() {
     }
 
     async function handleRemoveUser(userId: number) {
-        await removeUser(userId);
+        const toastId = executeCustomToast({ content: (
+            <div className="toast-remove-user">
+                <span>Tem certeza que deseja remover o usuário</span>
+                <div className="yes-or-no">
+                    <button 
+                        className="yes"
+                        onClick={async () => {
+                            toast.dismiss(toastId)
 
-        setUsers(users.filter(user => user.id !== userId))
+                            if (await removeUser(userId))
+                                setUsers(users.filter(user => user.id !== userId))
+                        }}
+                    >Sim
+                    </button>
+                    <button 
+                        onClick={() => {toast.dismiss(toastId)}} 
+                        className="no"
+                    >Não
+                    </button>
+                </div>
+            </div>
+        ) })
     }
     
     return (

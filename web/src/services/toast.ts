@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { toast } from 'react-toastify';
 
 type TConfigs = {
@@ -5,8 +6,14 @@ type TConfigs = {
     position?: "right" | "left",
     time?: number
 }
+type TCustomConfigs = {
+    content: ReactElement,
+    position?: "right" | "left",
+    time?: number
+}
 
-function executeToast(text: string, configs: TConfigs){    
+
+function executeToast(text: string, configs: TConfigs){
     if (configs.type === "info")
         toast.success(text, {
             position: configs?.position === "right" ? "bottom-right" : "bottom-left",
@@ -26,7 +33,7 @@ function executeToast(text: string, configs: TConfigs){
             draggable: true,
             toastId: "toast-success"
         });
-    
+
     if (configs.type === "warning")
         toast.warning(text, {
             position: configs?.position === "right" ? "bottom-right" : "bottom-left",
@@ -48,15 +55,27 @@ function executeToast(text: string, configs: TConfigs){
         });
 }
 
+function executeCustomToast(configs: TCustomConfigs) {
+    return toast(configs.content, {
+        position: configs?.position === "right" ? "bottom-right" : "bottom-left",
+        autoClose: configs.time ?? 10000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        draggable: true,
+        closeButton: false,
+        toastId: "toast-custom"
+    });
+}
+
 function startPromiseToast(text: string, position?: "right" | "left") {
     return toast.loading(text, { position: position === "right" ? "bottom-right" : "bottom-left" });
 }
 
 function endPromiseToast(id: number | string, text: string, configs: TConfigs) {
-    toast.update(id, { 
-        render: text, 
-        type: configs.type, 
-        isLoading: false, 
+    toast.update(id, {
+        render: text,
+        type: configs.type,
+        isLoading: false,
         position: configs?.position === "right" ? "bottom-right" : "bottom-left",
         autoClose: configs.time ?? 4000,
         hideProgressBar: false,
@@ -68,6 +87,7 @@ function endPromiseToast(id: number | string, text: string, configs: TConfigs) {
 
 export {
     executeToast,
+    executeCustomToast,
     startPromiseToast,
     endPromiseToast
 };

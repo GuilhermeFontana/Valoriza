@@ -78,6 +78,43 @@
     }
 }
 
+.Toastify .Toastify__toast-container .toast-remove-user .yes-or-no {
+    display: flex;
+    justify-content: space-around;
+
+    padding: 3px;
+    margin-top: 7px;
+
+    button {
+        height: 30px;
+        width: 120px;
+
+        color: #fff;
+        border-radius: 15px;
+        border: none;
+    }
+
+    .yes {
+        background-color: #999;
+        transition: 0.3;
+    }
+
+    .yes:hover {
+        cursor: pointer;
+        background-color: #777;
+    }
+
+    .no {
+        background-color: #895afd;
+        transition: 0.3;
+    }
+
+    .no:hover{
+        background-color: #6145aa;
+        cursor: pointer;
+    }
+}
+
 @keyframes show-aside-horizontal {
     from {
         transform: translate(-50vw, 0);

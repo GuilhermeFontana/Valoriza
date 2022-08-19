@@ -57,7 +57,7 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
         .catch(res => {
             outputCatch(
                 res.response, 
-                "Ocorreu um erro ao buscar o usuario", 
+                "Ocorreu um erro ao buscar os usuarios", 
                 "", 
                 res.response.status === 401 ? "none" : "right"
             );

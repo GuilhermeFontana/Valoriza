@@ -11,8 +11,8 @@ import '../styles/login.scss'
 export function Login(){
     const history = useHistory();
     const { signInWithEmail, forgotPassword } = useAuth();
-    const [ email, setEmail ] = useState("erro@email.com");
-    const [ senha, setSenha ] = useState("erro");
+    const [ email, setEmail ] = useState("");
+    const [ senha, setSenha ] = useState("");
     const [ enableBtn, setEnableBtn ] = useState(true);
 
 

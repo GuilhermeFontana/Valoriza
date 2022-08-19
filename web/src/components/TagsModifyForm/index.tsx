@@ -1,6 +1,8 @@
+import { FormEvent, useEffect, useState } from "react"
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
-import { FormEvent, useEffect, useState } from "react"
+import { toast } from 'react-toastify';
+import { executeCustomToast } from '../../services/toast';
 import { useApi } from '../../hooks/useApi';
 
 import "./style.scss"
@@ -69,8 +71,26 @@ export function TagsModifyForm(props: TagsModifyFormProps) {
             setDescription("");
         }
         else {
-            await handleRemoveTag();
-            setSelectedTags([]);
+            const toastId = executeCustomToast({ content: (
+                <div className="toast-remove-user">
+                    <span>Tem certeza que deseja remover o usuário</span>
+                    <div className="yes-or-no">
+                        <button 
+                            className="yes"
+                            onClick={async () => {
+                                toast.dismiss(toastId);
+                                
+                                await handleRemoveTag();
+                                setSelectedTags([]);
+                            }}
+                        >Sim</button>
+                        <button 
+                            onClick={() => {toast.dismiss(toastId)}} 
+                            className="no"
+                        >Não</button>
+                    </div>
+                </div>
+            ) })
         }
     }
 

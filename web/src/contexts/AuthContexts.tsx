@@ -43,7 +43,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       async function loadUser() {
         const user: userType = getCookies("user");
         
-        if (!user.token && history.location.pathname === "/home")
+        if (!user.token && (history.location.pathname === "/home" || history.location.pathname === "/"))
           history.push("/login");
       
         setUser(user);  

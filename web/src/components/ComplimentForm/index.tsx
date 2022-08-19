@@ -1,6 +1,8 @@
 import { FormEvent, useEffect, useState } from 'react';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
+import { toast } from 'react-toastify';
+import { executeCustomToast } from '../../services/toast';
 import { useApi } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -73,10 +75,32 @@ export function ComplimentForm(props: TComplimentForm) {
         
         if (props.compliment?.id) {
 
-            if (props.handleRemoveCompliment) 
-                props.handleRemoveCompliment(
-                    props.compliment.id
-                )
+            if (props.handleRemoveCompliment) {
+
+                const toastId = executeCustomToast({ content: (
+                    <div className="toast-remove-user">
+                        <span>Tem certeza que deseja remover o usuário</span>
+                        <div className="yes-or-no">
+                            <button 
+                                className="yes"
+                                onClick={async () => {
+                                    toast.dismiss(toastId);
+                                    
+                                    if (props.handleRemoveCompliment && props.compliment?.id) {
+                                        props.handleRemoveCompliment(
+                                            props.compliment.id
+                                        )
+                                }}}
+                            >Sim</button>
+                            <button 
+                                onClick={() => {toast.dismiss(toastId)}} 
+                                className="no"
+                            >Não</button>
+                        </div>
+                    </div>
+                ) })
+            }
+                
         }
         else {
 
