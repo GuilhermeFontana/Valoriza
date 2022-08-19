@@ -55,8 +55,9 @@ class ComplimentRepository {
         if (x[0] === "mensagem")
             return ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%')`
             
-            return ` AND ${x[0]}='${x[1]}';`
-    }).join("")}`;
+            return ` AND ${x[0]}='${x[1]}'`
+    }).join("")}
+    ORDER BY dthr_criacao DESC;`;
 
         return await this.popularFKs((await executarSQL(sql)).rows)
     }

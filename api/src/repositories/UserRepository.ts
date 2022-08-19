@@ -47,7 +47,8 @@ class UserRepository {
             return ` AND ${x[0]}='${x[1]}'`
         
             return ` AND LOWER(${x[0]}) LIKE LOWER('%${x[1]}%')`
-    }).join("")};`;
+    }).join("")}
+    ORDER BY nome;`;
 
         return (await executarSQL(sql)).rows;
     }
