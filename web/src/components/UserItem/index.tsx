@@ -62,7 +62,7 @@ export function UserItem({currentUser, setUserEdit, removeUser}: UserItemProps) 
         const newCompliment = await createCompliment(destinatario_id, etiquetas, mensagem);
         
         if (newCompliment) {            
-            setCompliments([ ...compliments, newCompliment]);
+            setCompliments([ newCompliment, ...compliments]);
             setComplimentingVisible(false);
         }
     }

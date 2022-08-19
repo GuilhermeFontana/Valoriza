@@ -59,7 +59,7 @@ export function UserModifyForm(props: UserModifyFormProps) {
         const newUser = await createUser(name, email, password, confPassword, admin);
 
         if (newUser){
-            setUsers([...users, newUser]);
+            setUsers([...users, newUser].sort((a, b) => (a.nome > b.nome) ? 1 : ((b.nome > a.nome) ? -1 : 0)));
             clearForm();
         }
     }
