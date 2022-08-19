@@ -115,10 +115,14 @@ class UserRepository {
     async buscarUsuariosComEtiqueta(etiqueta_id) {
         const sql = 
 `SELECT DISTINCT u.id, u.nome, u.email, u.admin 
-    FROM valoriza.usuario u 
-JOIN valoriza.elogio e 
-    ON e.destinatario_id = u.id 
-WHERE e.etiqueta_id = ${etiqueta_id}`;
+FROM valoriza.usuario u 
+WHERE EXISTS (
+SELECT  1 
+    FROM valoriza.elogio e
+INNER JOIN valoriza.elogios_etiquetas ee
+    ON ee.elogio_id = e.id
+WHERE e.destinatario_id = u.id
+    AND ee.etiqueta_id = ${etiqueta_id})`;
 
         return (await executarSQL(sql)).rows;
     }
