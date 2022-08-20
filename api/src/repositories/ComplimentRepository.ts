@@ -49,7 +49,7 @@ class ComplimentRepository {
         elogio = limparObjeto(elogio);
 
         const sql = 
-`SELECT id, remetente_id AS remetente, destinatario_id AS destinatario, null as etiquetas, mensagem
+`SELECT id, remetente_id AS remetente, destinatario_id AS destinatario, null as etiquetas, mensagem, dthr_criacao
     FROM valoriza.elogio
     WHERE 1=1 ${Object.entries(elogio).map(x => {
         if (x[0] === "mensagem")
