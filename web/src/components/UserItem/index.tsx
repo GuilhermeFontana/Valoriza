@@ -22,6 +22,7 @@ type TCompliment = {
     id: number,
     mensagem: string,
     remetente: TUserType,
+    dthr_criacao: string,
     etiquetas: {
         id: number,
         nome: string
@@ -46,7 +47,7 @@ export function UserItem({currentUser, setUserEdit, removeUser}: UserItemProps) 
         async function execute() {
             if (complimentVisible){
                 const newCompliments = await getCompliments(currentUser)
-                    
+
                 if (newCompliments && newCompliments.length > 0)
                     setCompliments(newCompliments)
             }

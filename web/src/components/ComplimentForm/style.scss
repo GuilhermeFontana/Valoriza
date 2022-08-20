@@ -22,21 +22,46 @@
         font-family: 'Roboto', sans-serif;
     }
 
-    .actions {
-        display: flex;
+    .select {
         width: 100%;
-
-        animation: fill-animation 0.5s linear;
 
         font-size: 14px;
         font-family: 'Roboto', sans-serif;
 
         margin-left: 5%;
+    }
+
+    .footer {
+        display: flex;
+        width: 100%;
+        margin-left: 5%;
+        margin-top: 5px;
+        height: 38px;        
+
+        animation: fill-animation 0.5s linear;
+
+        font-size: 14px;
+        font-family: 'Roboto', sans-serif;
         
         gap: 10px;
 
-        .select {
+        .user-date-infos {
             flex: 10;
+            display: flex;
+            align-items: baseline;
+            margin-right: 10%;
+
+            gap: 30px;
+
+            strong {
+                color: #835afd;
+                font-size: 17px
+            }
+
+            span {
+                color: #888;
+                font-size: 12px
+            }
         }
 
         button {

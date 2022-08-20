@@ -34,7 +34,8 @@ type complimentType = {
     id: number,
     mensagem: string,
     etiquetas: tagType[],
-    remetente: userType
+    remetente: userType,
+    dthr_criacao: string
 }
 
 export const ApiContext = createContext({} as ApiContextType);
@@ -117,7 +118,7 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
     }
 
     async function removeUser(userId: number): Promise<boolean> {
-        const toastId = startPromiseToast("Apagando usuário")
+        const toastId = startPromiseToast("Removendo usuário")
 
         return await api.delete(`/users/remove/${userId}`,  
         {
@@ -175,7 +176,7 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
     }
     
     async function removeTag(tagId: number): Promise<boolean> {
-        const toastId = startPromiseToast("Apagando etiqueta")
+        const toastId = startPromiseToast("Removendo etiqueta")
 
         return await api.delete(`/tags/remove/${tagId}`,  
             {
@@ -211,7 +212,7 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
     }
 
     async function createCompliment(destinatario_id: number, etiquetas: number[], mensagem: string): Promise<complimentType> {
-        const toastId = startPromiseToast("Cadastrando usuário", "right")
+        const toastId = startPromiseToast("Enviando elogio", "right")
 
         return await api.post("/compliment/send", 
             {
@@ -235,7 +236,7 @@ export function ApiContextProvider(props: ApiContextProviderProps) {
     }
 
     async function removeCompliment(compliment_id: number): Promise<boolean> {
-        const toastId = startPromiseToast("Cadastrando usuário", "right")
+        const toastId = startPromiseToast("Removendo elogio", "right")
 
         return await api.delete(`/compliment/remove/${compliment_id}`,  
         {

@@ -2,12 +2,13 @@ import { FormEvent, useEffect, useState } from 'react';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import { toast } from 'react-toastify';
+import moment from 'moment';
 import { executeCustomToast } from '../../services/toast';
 import { useApi } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
 
-import "./style.scss"
 
+import "./style.scss"
 type TComplimentForm = {
     usuId: number;
     compliment?: {
@@ -18,6 +19,7 @@ type TComplimentForm = {
             nome: string,
             email: string
         }
+        dthr_criacao: string,
         etiquetas: {
             id: number,
             nome: string
@@ -126,25 +128,30 @@ export function ComplimentForm(props: TComplimentForm) {
                 readOnly={!!props.compliment}
                 onChange={(e) => setMessage(e.target.value)}
             />
-            <div 
-                className='actions'>
-                {!props.compliment ?
-                    <Select
-                        className='select'
-                        isMulti 
-                        components={makeAnimated()}
-                        closeMenuOnSelect={false}
-                        options={tags}
-                        value={complimentsTags}
-                        onChange={(e: any) => setComplimentsTags(e)}
-                    />
-                    :
-                    <Select
-                        className='select' 
-                        isMulti 
-                        isDisabled
-                        value={complimentsTags} 
-                    />
+            {!props.compliment ?
+                <Select
+                    className='select'
+                    isMulti 
+                    components={makeAnimated()}
+                    closeMenuOnSelect={false}
+                    options={tags}
+                    value={complimentsTags}
+                    onChange={(e: any) => setComplimentsTags(e)}
+                />
+                :
+                <Select
+                    className='select' 
+                    isMulti 
+                    isDisabled
+                    value={complimentsTags} 
+                />
+            }
+            <div className='footer'>
+                {props.compliment &&
+                    <div className="user-date-infos">
+                        <strong>{props.compliment.remetente.nome}</strong>
+                        <span>{moment(props.compliment.dthr_criacao).format("DD/MM/YYYY HH:mm:ss")}</span>
+                    </div>
                 }
                 {(user.admin || !props.compliment || ( props.compliment.remetente && props.compliment.remetente.id === user.id )) &&
                     <button type='submit'>{btnTetx}</button>
